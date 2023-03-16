@@ -31,6 +31,8 @@ export default hopeTheme({
     global: true,
     admin: 'qwerasdf'
   },
+  hotReload: true, // 开发模式下显示最近更新时间
+  contributors: false, // 不显示页面贡献者
 
   plugins: {
     // all features are enabled for demo, only preserve features you need here
