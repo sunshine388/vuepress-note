@@ -3,6 +3,10 @@ title: TypeScript篇
 order: 4
 ---
 
+TypeScript篇
+
+<!-- more -->
+
 ## 什么是 TypeScript？
 
 Typescript 是一个强类型的 JavaScript 超集，支持 ES6 语法，支持面向对象编程的概念，如类、接口、继承、泛型等。Typescript 并不直接在浏览器上运行，需要编译器编译成纯 Javascript 来运行。

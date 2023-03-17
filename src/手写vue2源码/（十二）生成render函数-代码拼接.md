@@ -5,7 +5,7 @@ order: 12
 
 使用 ast 语法树生成 render 函数 - 代码拼接部分
 
-<!--more -->
+<!-- more -->
 
 ## render 函数之代码拼接：generate(ast)
 
