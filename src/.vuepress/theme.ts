@@ -35,7 +35,7 @@ export default hopeTheme({
   contributors: false, // 不显示页面贡献者
 
   blog: {
-    name: "VuePress Theme Hope",
+    name: "个人笔记",
   },
   plugins: {
     blog: {
