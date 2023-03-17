@@ -1,5 +1,6 @@
 ---
 title: （二）vue的初始化流程
+order: 2
 ---
 
 Vue 是一套用于构建用户界面的渐进式框架，Vue 并没有完全支持 MVVM 模型，但 Vue 的设计受到了它的启发，变量名 vm 是 vue model 的缩写，表示 vue 实例
@@ -8,9 +9,9 @@ Vue 是一套用于构建用户界面的渐进式框架，Vue 并没有完全支
 
 所以，严格说 Vue 并不是一个 MVVM 框架，MVVM 模式是仅能够通过视图更改数据，通过数据来更改视图的，但 Vue 是可以通过 ref 获取 dom 进行操作的
 
-# vue 的初始化操作
+## vue 的初始化操作
 
-## 原型方法 \_init
+### 原型方法 \_init
 
 在 Vue 原型上扩展一个 \_init 方法（原型方法），用于 Vue 的初始化操作
 
@@ -42,7 +43,7 @@ export function initMixin(Vue) {
 }
 ```
 
-## 修改 html 文件
+### 修改 html 文件
 
 ```js
 <!DOCTYPE html>
@@ -71,12 +72,12 @@ Vue 初始化时，传入 el 挂载点，data 数据；
 
 初始化完成后，message 成为响应式数据，数据变化更新视图，视图变化影响数据；
 
-## 打印输出
+### 打印输出
 
 ![](/images/手写vue2源码/（二）vue的初始化流程/打印输出1.png)
 打印原型方法 \_init 的 this，this 指向 vm 实例
 
-# vm.$options
+## vm.$options
 
 为了后续让 vue 中的其他方法也能够轻松获取到外部 new Vue 实例化时传入的 options 对象
 
@@ -92,7 +93,7 @@ export function initMixin(Vue) {
 }
 ```
 
-# initState 方法：状态的初始化
+## initState 方法：状态的初始化
 
 在实际使用中，数据不仅来源于传入的 data，还可能来自 props、watch、computed...
 

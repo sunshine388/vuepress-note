@@ -1,20 +1,21 @@
 ---
 title: （十一）生成ast语法树-构造树形结构
+order: 11
 ---
 
 生成 ast 语法树 - 构造树形结构
 
 <!-- more -->
 
-# 构建树形结构
+## 构建树形结构
 
-## 需要描述什么
+### 需要描述什么
 
 将 html 模板构造成为 ast 语法树，使用 js 树形结构来描述 html 语法
 对于一个 html 模板来说，主要有以下几点需要被描述和记录： 1.标签 2.属性 3.文本
 4.html 结构的层级关系，即父子关系
 
-## ast 节点元素的数据结构
+### ast 节点元素的数据结构
 
 ```js
 // 构建父子关系
@@ -29,7 +30,7 @@ function createASTElement(tag, attrs, parent) {
 }
 ```
 
-## 处理开始标签
+### 处理开始标签
 
 处理开始标签的逻辑
 
@@ -56,7 +57,7 @@ function start(tag, attrs) {
 }
 ```
 
-## 处理结束标签
+### 处理结束标签
 
 处理结束标签的逻辑
 
@@ -104,9 +105,9 @@ function text(chars) {
 }
 ```
 
-# 代码重构
+## 代码重构
 
-# 模块化
+## 模块化
 
 将 parserHTML 逻辑进行封装，并提取为单独 js 文件：
 src/compile/parser.js#parserHTML
@@ -270,7 +271,7 @@ export function parserHTML(html) {
 }
 ```
 
-## 导入模块
+### 导入模块
 
 src/compile/index.js 中，引入 parserHTML：
 
@@ -288,7 +289,7 @@ export function compileToFunction(template) {
 }
 ```
 
-## 测试 ast 构建逻辑
+### 测试 ast 构建逻辑
 
 ```js
 <div id="app" a='1' b=2 > <p>{{message}} <span>Hello Vue</span></p></div>

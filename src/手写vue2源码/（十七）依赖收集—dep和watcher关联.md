@@ -1,14 +1,15 @@
 ---
 title: （十七）依赖收集—dep和watcher关联
+order: 17
 ---
 
 依赖收集
 
 <!--more -->
 
-# 依赖收集的过程分析
+## 依赖收集的过程分析
 
-## Vue 的使用
+### Vue 的使用
 
 备注：当前仅考虑单个根组件的更新，暂不涉及多组件更新；
 
@@ -23,7 +24,7 @@ title: （十七）依赖收集—dep和watcher关联
 这就需要知道数据和视图间的关系，从而准确触发该数据对应视图的更新操作
 这就涉及到 Vue 依赖收集的过程
 
-## dep 和 watcher
+### dep 和 watcher
 
 在 Vue 中，依赖收集的实现使用了观察者模式：
 每个数据具有一个 dep 属性：用于记录使用该数据的组件或页面的视图渲染函数 watcher
@@ -42,15 +43,15 @@ watcher 就会调用自身对应的更新方法 update，完成页面的重新�
 watcher 中的 update 方法，便是触发了 vm.\_update(vm.\_render()) 重新进行数据渲染和视图更新
 所以，需要将 vm.\_update(vm.\_render())改造为可以通过 watcher 调用的方法
 
-## 其他
+### 其他
 
 数据响应式过程中，为每个属性扩展 dep，用于收集 watcher，当数据渲染时，记录 watcher；
 当同一数据在同一视图中被多次使用时，dep 中应只记录一次 watcher，需对 watcher 进行查重；
 防止只要一修改数据就会渲染视图的情况：当数据在视图中没有被使用时，数据的变化不应触发 watcher 渲染，需要在视图渲染时进行依赖收集；
 
-# Watcher 部分
+## Watcher 部分
 
-## watcher 的本质
+### watcher 的本质
 
 之前分析可知：
 vm.\_render：调用 render 方法
@@ -71,7 +72,7 @@ vm._update(vm._render()); // 视图更新
 
 在 Vue 中，数据更新： 1.每个数据有一个 dep 属性：记录使用该数据的组件或页面的视图渲染函数 watcher 2.当数据发生变化时，dep 属性中存放的多个 watcher 将会被通知，这里是观察者模式 3.这里的 watcher 就相当于 vm.\_update(vm.\_render())
 
-## 抽取视图更新逻辑 watcher
+### 抽取视图更新逻辑 watcher
 
 将视图渲染逻辑抽取成为可调用函数：
 
@@ -87,7 +88,7 @@ export function mountComponent(vm) {
 
 最终的目标是：让 updateComponent 方法通过 watcher 被调用
 
-## 创建 Watcher 类
+### 创建 Watcher 类
 
 数据改变，视图更新，所以 watcher 应所属于响应式模块
 创建 watcher 类：
@@ -129,7 +130,7 @@ export function mountComponent(vm) {
 }
 ```
 
-## 依赖收集的必要性
+### 依赖收集的必要性
 
 数据改变时，会被劫持进入 Object.defineProperty 的 set 方法
 那么，如果在此时调用了视图更新逻辑，是不是就可以做到“数据变化，视图更新”了?
@@ -154,9 +155,9 @@ Object.defineProperty(obj, key, {
 所以，在视图渲染过程中，被使用的数据需要被记录下来，并且只针对这些数据的变化触发视图更新
 这就需要做依赖收集，需要创建为属性创建 dep 用来收集渲染 watcher
 
-# Dep 部分
+## Dep 部分
 
-## 创建 Dep 类
+### 创建 Dep 类
 
 前面说过： 1.每一个数据都有一个 dep 属性，用于存放对应的 watcher； 2.每一个 watcher 中，也可能有多个 dep
 所以，Dep 类中要有一个添加 watcher 的方法；Watcher 类中 也要有一个添加 dep 的方法；
@@ -184,7 +185,7 @@ Dep.target = null;  // 静态属性
 export default Dep
 ```
 
-## 为属性添加 dep 属性
+### 为属性添加 dep 属性
 
 Object.defineProperty 时会为每个数据添加属性,在此时为属性添加 dep：
 

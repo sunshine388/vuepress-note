@@ -1,12 +1,13 @@
 ---
 title: vue框架篇
+order: 5
 ---
 
 vue 相关面试题
 
 <!-- more -->
 
-# 对于 MVVM 的理解
+## 对于 MVVM 的理解
 
 > MVVM 是 Model-View-ViewModel 的缩写
 
@@ -17,7 +18,7 @@ vue 相关面试题
 > - 在 MVVM 架构下， View 和 Model 之间并没有直接的联系，而是通过 ViewModel 进行交互， Model 和 ViewModel 之间的交互是双向的， 因此 View 数据的变化会同步到 Model 中，而 Model 数据的变化也会立即反应到 View 上。
 > - ViewModel 通过双向数据绑定把 View 层和 Model 层连接了起来，而 View 和 Model 之间的同步工作完全是自动的，无需人为干涉，因此开发者只需关注业务逻辑，不需要手动操作 DOM，不需要关注数据状态的同步问题，复杂的数据状态维护完全由 MVVM 来统一管理
 
-# 请详细说下你对 vue 生命周期的理解
+## 请详细说下你对 vue 生命周期的理解
 
 > 答：总共分为 8 个阶段创建前/后，载入前/后，更新前/后，销毁前/后
 
@@ -46,7 +47,7 @@ vue 相关面试题
 
 - 答： DOM 渲染在 mounted 中就已经完成了
 
-## 生命周期钩子函数
+### 生命周期钩子函数
 
 - 在 beforeCreate 钩子函数调用的时候，是获取不到 props 或者 data 中的数据的，因为这些数据的初始化都在 initState 中。
 - 然后会执行 created 钩子函数，在这一步的时候已经可以访问到之前不能访问到的数据，但是这时候组件还没被挂载，所以是看不到的。
@@ -55,16 +56,16 @@ vue 相关面试题
 - 另外还有 keep-alive 独有的生命周期，分别为 activated 和 deactivated 。用 keep-alive 包裹的组件在切换时不会进行销毁，而是缓存到内存中并执行 deactivated 钩子函数，命中缓存渲染后会执行 actived 钩子函数。
 - 最后就是销毁组件的钩子函数 beforeDestroy 和 destroyed 。前者适合移除事件、定时器等等，否则可能会引起内存泄露的问题。然后进行一系列的销毁操作，如果有子组件的话，也会递归销毁子组件，所有子组件都销毁完毕后才会执行根组件的 destroyed 钩子函数
 
-# 说一下 Vue 的双向绑定数据的原理
+## 说一下 Vue 的双向绑定数据的原理
 
 vue.js 则是采用数据劫持结合发布者-订阅者模式的方式，通过 Object.defineProperty() 来劫持各个属性的 setter ， getter ，在数据变动时发布消息给订阅者，触发相应的监听回调
 
-# Vue 实现数据双向绑定的原理：Object.defineProperty()
+## Vue 实现数据双向绑定的原理：Object.defineProperty()
 
 - vue 实现数据双向绑定主要是：采用数据劫持结合发布者-订阅者模式的方式，通过 Object.defineProperty() 来劫持各个属性的 setter ， getter ，在数据变动时发布消息给订阅者，触发相应监听回调。当把一个普通 Javascript 对象传给 Vue 实例来作为它的 data 选项时，Vue 将遍历它的属性，用 Object.defineProperty() 将它们转为 getter/setter 。用户看不到 getter/setter ，但是在内部它们让 Vue 追踪依赖，在属性被访问和修改时通知变化。
 - vue 的数据双向绑定 将 MVVM 作为数据绑定的入口，整合 Observer ， Compile 和 Watcher 三者，通过 Observer 来监听自己的 model 的数据变化，通过 Compile 来解析编译模板指令（ vue 中是用来解析 `{{}}` ），最终利用 watcher 搭起 observer 和 Compile 之间的通信桥梁，达到数据变化 —>视图更新；视图交互变化（ input ）—>数据 model 变更双向绑定效果。
 
-# 响应式原理
+## 响应式原理
 
 > Vue 内部使用了 Object.defineProperty() 来实现数据响应式，通过这个函数可以监听到 set 和 get 的事件
 
@@ -208,7 +209,7 @@ new Watcher(data, 'name', update)
 data.name = 'yyy'
 ```
 
-## Object.defineProperty 的缺陷
+### Object.defineProperty 的缺陷
 
 - 以上已经分析完了 Vue 的响应式原理，接下来说一点 Object.defineProperty 中的缺陷。
 - 如果通过下标方式修改数组数据或者给对象新增属性并不会触发组件的重新渲染，因为 Object.defineProperty 不能拦截到这些操作，更精确的来说，对于数组而言，大部分操作都是拦截不到的，只是 Vue 内部通过重写函数的方式解决了这个问题。
@@ -285,7 +286,7 @@ methodsToPatch.forEach(function (method) {
 })
 ```
 
-## 编译过程
+### 编译过程
 
 > 想必大家在使用 Vue 开发的过程中，基本都是使用模板的方式。那么你有过「模板是怎么在浏览器中运行的」这种疑虑嘛？
 
@@ -321,7 +322,7 @@ methodsToPatch.forEach(function (method) {
 - 接下来就是优化 AST 的阶段。在当前版本下， Vue 进行的优化内容其实还是不多的。只是对节点进行了静态内容提取，也就是将永远不会变动的节点提取了出来，实现复用 Virtual DOM ，跳过对比算法的功能。在下一个大版本中， Vue 会在优化 AST 的阶段继续发力，实现更多的优化功能，尽可能的在编译阶段压榨更多的性能，比如说提取静态的属性等等优化行为。
 - 最后一个阶段就是通过 AST 生成 render 函数了。其实这一阶段虽然分支有很多，但是最主要的目的就是遍历整个 AST ，根据不同的条件生成不同的代码罢了。
 
-## NextTick 原理分析
+### NextTick 原理分析
 
 > nextTick 可以让我们在下次 DOM 更新循环结束之后执行延迟回调，用于获得更新后的 DOM 。
 
@@ -354,7 +355,7 @@ if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
 
 以上代码很简单，就是判断能不能使用相应的 API
 
-# vue 组件通讯方式有哪些方法
+## vue 组件通讯方式有哪些方法
 
 - props 和$emit 父组件向子组件传递数据是通过 prop 传递的，子组件传递数据给父组件是通过$emit 触发事件来做到的
 - $parent,$children 获取当前组件的父组件和当前组件的子组件
@@ -364,7 +365,7 @@ if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
 - envetBus 兄弟组件数据传递 这种情况下可以使用事件总线的方式
 - vuex 状态管理
 
-# Vue 组件间的参数传递
+## Vue 组件间的参数传递
 
 父组件与子组件传值
 
@@ -375,12 +376,12 @@ if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
 
 - eventBus ，就是创建一个事件中心，相当于中转站，可以用它来传递事件和接收事件。项目比较小时，用这个比较合适（虽然也有不少人推荐直接用 VUEX ，具体来说看需求）
 
-# Vue 的路由实现：hash 模式 和 history 模式
+## Vue 的路由实现：hash 模式 和 history 模式
 
 - hash 模式：在浏览器中符号 “#” ，#以及#后面的字符称之为 hash ，用 window.location.hash 读取。特点： hash 虽然在 URL 中，但不被包括在 HTTP 请求中；用来指导浏览器动作，对服务端安全无用， hash 不会重加载页面。
 - history 模式：history 采用 HTML5 的新特性；且提供了两个新方法：pushState() ， replaceState() 可以对浏览器历史记录栈进行修改，以及 popState 事件的监听到状态变更
 
-# vue 路由的钩子函数
+## vue 路由的钩子函数
 
 > 首页可以控制导航跳转， beforeEach ， afterEach 等，一般用于页面 title 的修改。一些需要登录才能调整页面的重定向功能。
 
@@ -389,7 +390,7 @@ if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
 - from ： route 当前导航正要离开的路由。
 - next ： function 一定要调用该方法 resolve 这个钩子。执行效果依赖 next 方法的调用参数。可以控制网页的跳转
 
-# vuex 是什么？怎么使用？哪种功能场景使用它？
+## vuex 是什么？怎么使用？哪种功能场景使用它？
 
 - 只用来读取的状态集中放在 store 中； 改变状态的方式是提交 mutations ，这是个同步的事物； 异步逻辑应该封装在 action 中。
 - 在 main.js 引入 store ，注入。新建了一个目录 store ， … export
@@ -404,22 +405,22 @@ vuex
 
 > modules ：项目特别复杂的时候，可以让每一个模块拥有自己的 state 、mutation 、 action 、 getters ，使得结构非常清晰，方便管理
 
-# v-if 和 v-show 区别
+## v-if 和 v-show 区别
 
 - v-show 只是在 display: none 和 display: block 之间切换。无论初始条件是什么都会被渲染出来，后面只需要切换 CSS ， DOM 还是一直保留着的。所以总的来说 v-show 在初始渲染时有更高的开销，但是切换开销很小，更适合于频繁切换的场景。
 - v-if 的话就得说到 Vue 底层的编译了。当属性初始为 false 时，组件就不会被渲染，直到条件为 true ，并且切换条件时会触发销毁/挂载组件，所以总的来说在切换时开销更高，更适合不经常切换的场景。
 - 并且基于 v-if 的这种惰性渲染机制，可以在必要的时候才去渲染组件，减少整个页面的初始渲染开销。
 
-# $route 和 $router 的区别
+## $route 和 $router 的区别
 
 - $route 是“路由信息对象”，包括 path ， params ， hash ， query ， fullPath ，matched ， name 等路由信息参数。
 - 而 $router 是“路由实例”对象包括了路由的跳转方法，钩子函数等
 
-# 如何让 CSS 只在当前组件中起作用?
+## 如何让 CSS 只在当前组件中起作用?
 
 > 将当前组件的 \<style> 修改为 \<style scoped>
 
-# keep-alive 的作用是什么?
+## keep-alive 的作用是什么?
 
 - \<keep-alive>\</keep-alive> 包裹动态组件时，会缓存不活动的组件实例,主要用于保留组件状态或避免重新渲染
 - 如果你需要在组件切换的时候，保存一些组件的状态防止多次渲染，就可以使用 keepalive 组件裹需要保存的组件。
@@ -427,22 +428,22 @@ vuex
 
 > 比如有一个列表和一个详情，那么用户就会经常执行打开详情=>返回列表=>打开详情…这样的话列表和详情都是一个频率很高的页面，那么就可以对列表组件使用 \<keep-alive>\</keep-alive> 进行缓存，这样用户每次返回列表的时候，都能从缓存中快速渲染，而不是重新渲染
 
-# 指令 v-el 的作用是什么?
+## 指令 v-el 的作用是什么?
 
 > 提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标.可以是 CSS 选择器，也可以是一个 HTMLElement 实例,
 
-# 在 Vue 中使用插件的步骤
+## 在 Vue 中使用插件的步骤
 
 - 采用 ES6 的 import ... from ... 语法或 CommonJS 的 require() 方法引入插件
 - 使用全局方法 Vue.use( plugin ) 使用插件,可以传入一个选项对象 Vue.use(MyPlugin, {someOption: true })
 
-# 请列举出 3 个 Vue 中常用的生命周期钩子函数?
+## 请列举出 3 个 Vue 中常用的生命周期钩子函数?
 
 - created : 实例已经创建完成之后调用,在这一步,实例已经完成数据观测, 属性和方法的运算, watch/event 事件回调. 然而, 挂载阶段还没有开始, $el 属性目前还不可见
 - mounted : el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。如果root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$el 也在文档内。
 - activated : keep-alive 组件激活时调用
 
-# vue-cli 工程技术集合介绍
+## vue-cli 工程技术集合介绍
 
 **问题一：构建的 vue-cli 工程都到了哪些技术，它们的作用分别是什么？**
 
@@ -463,17 +464,17 @@ vuex
 
 > 在浏览器上自动弹出一个 展示 vue-cli 工程打包后 app.js 、manifest.js 、 vendor.js 文件里面所包含代码的页面。可以具此优化 vue-cli 生产环境部署的静态资源，提升 页面 的加载速度
 
-# NextTick
+## NextTick
 
 > nextTick 可以让我们在下次 DOM 更新循环结束之后执行延迟回调，用于获得更新后的 DOM
 
-# vue 的优点是什么？
+## vue 的优点是什么？
 
 - 低耦合。视图（ View ）可以独立于 Model 变化和修改，一个 ViewModel 可以绑定到不同的 "View" 上，当 View 变化的时候 Model 可以不变，当 Model 变化的时候 View 也可以不变
 - 可重用性。你可以把一些视图逻辑放在一个 ViewModel 里面，让很多 view 重用这段视图逻辑
 - 可测试。界面素来是比较难于测试的，而现在测试可以针对 ViewModel 来写
 
-# 路由之间跳转？
+## 路由之间跳转？
 
 声明式（标签跳转）
 
@@ -487,7 +488,7 @@ vuex
 router.push('index')
 ```
 
-# 实现 Vue SSR
+## 实现 Vue SSR
 
 **其基本实现原理**
 
@@ -500,17 +501,17 @@ router.push('index')
 
 - Vue SSR 需要做的事多点（输出完整 HTML），除了 complier -> vnode ，还需如数据获取填充至 HTML 、客户端混合（ hydration ）、缓存等等。 相比于其他模板引擎（ ejs ,jade 等），最终要实现的目的是一样的，性能上可能要差点
 
-# Vue 组件 data 为什么必须是函数
+## Vue 组件 data 为什么必须是函数
 
 - 每个组件都是 Vue 的实例。
 - 组件共享 data 属性，当 data 的值是同一个引用类型的值时，改变其中一个会影响其他
 
-# 组件中 data 什么时候可以使用对象
+## 组件中 data 什么时候可以使用对象
 
 - 组件复用时所有组件实例都会共享 data ，如果 data 是对象的话，就会造成一个组件修改 data 以后会影响到其他所有组件，所以需要将 data 写成函数，每次用到就调用一次函数获得新的数据。
 - 当我们使用 new Vue() 的方式的时候，无论我们将 data 设置为对象还是函数都是可以的，因为 new Vue() 的方式是生成一个根组件，该组件不会复用，也就不存在共享 data 的情况了
 
-# Vue computed 实现
+## Vue computed 实现
 
 - 建立与其他属性（如： data 、 Store ）的联系；
 - 属性改变后，通知计算属性重新计算
@@ -522,7 +523,7 @@ router.push('index')
 - Object.defineProperty getter 依赖收集。用于依赖发生变化时，触发属性重新计算。
 - 若出现当前 computed 计算属性嵌套其他 computed 计算属性时，先进行其他的依赖收集
 
-# Vue complier 实现
+## Vue complier 实现
 
 - 模板解析这种事，本质是将数据转化为一段 html ，最开始出现在后端，经过各种处理吐给前端。随着各种 mv\* 的兴起，模板解析交由前端处理。
 - 总的来说， Vue complier 是将 template 转化成一个 render 字符串。
@@ -533,11 +534,11 @@ router.push('index')
 - optimize 过程，标记静态节点，后 diff 过程跳过静态节点，提升性能。
 - generate 过程，生成 render 字符串
 
-# 怎么快速定位哪个组件出现性能问题
+## 怎么快速定位哪个组件出现性能问题
 
 > 用 timeline 工具。 大意是通过 timeline 来查看每个函数的调用时常，定位出哪个函数的问题，从而能判断哪个组件出了问题
 
-# extend 能做什么
+## extend 能做什么
 
 > 这个 API 很少用到，作用是扩展组件生成一个构造器，通常会与 $mount 一起使用。
 
@@ -558,7 +559,7 @@ new SuperComponent({
 new SuperComponent().$mount('#app')
 ```
 
-# mixin 和 mixins 区别
+## mixin 和 mixins 区别
 
 > mixin 用于全局混入，会影响到每个组件实例，通常插件都是这样做初始化的
 
@@ -575,7 +576,7 @@ Vue.mixin({
 - mixins 应该是我们最常使用的扩展组件的方式了。如果多个组件中有相同的业务逻辑，就可以将这些逻辑剥离出来，通过 mixins 混入代码，比如上拉下拉加载数据这种逻辑等等。
 - 另外需要注意的是 mixins 混入的钩子函数会先于组件内的钩子函数执行，并且在遇到同名选项的时候也会有选择性的进行合并，具体可以阅读 文档。
 
-# computed 和 watch 区别
+## computed 和 watch 区别
 
 - computed 是计算属性，依赖其他属性计算值，并且 computed 的值有缓存，只有当计算值变化才会返回内容。
 - watch 监听到值的变化就会执行回调，在回调中可以进行一些逻辑操作。

@@ -1,12 +1,13 @@
 ---
 title: js基础篇
+order: 3
 ---
 
 js 相关面试题
 
 <!-- more -->
 
-# apply call bind 区别
+## apply call bind 区别
 
 - 三者都可以改变函数的 this 对象指向。
 - 三者第一个参数都是 this 要指向的对象，如果如果没有这个参数或参数为 undefined 或 null，则默认指向全局 window。
@@ -14,7 +15,7 @@ js 相关面试题
 - bind 是返回绑定 this 之后的函数，便于稍后调用；apply 、call 则是立即执行 。
 - bind()会返回一个新的函数，如果这个返回的新的函数作为构造函数创建一个新的对象，那么此时 this 不再指向传入给 bind 的第一个参数，而是指向用 new 创建的实例
 
-# null，undefined 的区别
+## null，undefined 的区别
 
 - undefined 表示不存在这个值。
 - undefined :是一个表示"无"的原始值或者说表示"缺少值"，就是此处应该有一个值，但是还没有定义。当尝试读取时会返回 undefined
@@ -24,7 +25,7 @@ js 相关面试题
 - 例如作为函数的参数，表示该函数的参数不是对象；
 - 在验证 null 时，一定要使用 === ，因为 == 无法分别 null 和 undefined
 
-# 闭包
+## 闭包
 
 - 闭包就是能够读取其他函数内部变量的函数
 - 闭包是指有权访问另一个函数作用域中变量的函数，创建闭包的最常见的方式就是在一个函数内创建另一个函数，通过另一个函数访问这个函数的局部变量,利用闭包可以突破作用链域
@@ -112,18 +113,18 @@ for (var i = 1; i <= 5; i++) {
   }
   ```
 
-# 说说你对作用域链的理解
+## 说说你对作用域链的理解
 
 - 作用域链的作用是保证执行环境里有权访问的变量和函数是有序的，作用域链的变量只能向上访问，变量访问到 window 对象即被终止，作用域链向下访问变量是不被允许的
 - 简单的说，作用域就是变量与函数的可访问范围，即作用域控制着变量与函数的可见性和生命周期
 
-# 原型
+## 原型
 
 - 每个函数都有 prototype 属性，除了 Function.prototype.bind() ，该属性指向原型。
 - 每个对象都有 \_\_proto\_\_ 属性，指向了创建该对象的构造函数的原型。其实这个属性指向了 [[prototype]] ，但是 [[prototype]] 是内部属性，我们并不能访问到，所以使用\_\_proto\_\_ 来访问。
 - 对象可以通过 \_\_proto\_\_来寻找不属于该对象的属性， \_\_proto\_\_ 将对象连接起来组成了原型链
 
-# JavaScript 原型，原型链 ? 有什么特点？
+## JavaScript 原型，原型链 ? 有什么特点？
 
 - 每个对象都会在其内部初始化一个属性，就是 prototype (原型)，当我们访问一个对象的属性时
 - 如果这个对象内部不存在这个属性，那么他就会去 prototype 里找这个属性，这个 prototype 又会有自己的 prototype ，于是就这样一直找下去，也就是我们平时所说的原型链的概念
@@ -132,13 +133,13 @@ for (var i = 1; i <= 5; i++) {
   - JavaScript 对象是通过引用来传递的，我们创建的每个新对象实体中并没有一份属于自己的原型副本。当我们修改原型时，与之相关的对象也会继承这一改变
 - 当我们需要一个属性的时， Javascript 引擎会先看当前对象中是否有这个属性， 如果没有的就会查找他的 Prototype 对象是否有这个属性，如此递推下去，一直检索到 Object 内建对象
 
-# 请解释什么是事件代理
+## 请解释什么是事件代理
 
 - 事件代理（ Event Delegation ），又称之为事件委托。是 JavaScript 中常用绑定事件的常用技巧。顾名思义，“事件代理”即是把原本需要绑定的事件委托给父元素，让父元素担当事件监听的职务。事件代理的原理是 DOM 元素的事件冒泡。使用事件代理的好处是可以提高性能
 - 可以大量节省内存占用，减少事件注册，比如在 table 上代理所有 td 的 click 事件就非常棒
 - 可以实现当新增子对象时无需再次对其绑定
 
-# 继承
+## 继承
 
 > 在 ES5 中，我们可以使用如下方式解决继承的问题
 
@@ -186,7 +187,7 @@ Sub.prototype = Object.create(Super.prototype, {
 - 以上继承实现思路：先创建父类实例 => 改变实例原先的\_\_proto\_\_转而连接到子类的 prototype => 子类的 prototype 的\_\_proto\_\_改为父类的 prototype 。
 - 通过以上方法实现的继承就可以完美解决 JS 底层的这个限制
 
-# Javascript 如何实现继承？
+## Javascript 如何实现继承？
 
 - 构造继承
 - 原型继承
@@ -208,7 +209,7 @@ alert(demo.age);
 alert(demo.name); //得到被继承的属性
 ```
 
-# 原型继承和 class 继承
+## 原型继承和 class 继承
 
 > 涉及面试题：原型如何实现继承？ Class 如何实现继承？ Class 本质是什么？
 
@@ -294,7 +295,7 @@ child instanceof Parent; // true
 
 > class 实现继承的核心在于使用 extends 表明继承自哪个父类，并且在子类构造函数中必须调用 super ，因为这段代码可以看成 Parent.call(this,value) 。
 
-# 谈谈 This 对象的理解
+## 谈谈 This 对象的理解
 
 - this 总是指向函数的直接调用者（而非间接调用者）
 - 如果有 new 关键字， this 指向 new 出来的那个对象
@@ -302,7 +303,7 @@ child instanceof Parent; // true
 
 > 首先， new 的方式优先级最高，接下来是 bind 这些函数，然后是 obj.foo() 这种调用方式，最后是 foo 这种调用方式，同时，箭头函数的 this 一旦被绑定，就不会再被任何方式所改变。
 
-# 描述一下 this
+## 描述一下 this
 
 > this ，函数执行的上下文，可以通过 apply ， call ， bind 改变 this 的指向。对于匿名函数或者直接调用的函数来说，this 指向全局上下文（浏览器为 window，NodeJS 为 global ），剩下的函数调用，那就是谁调用它，this 就指向谁。当然还有 es6 的箭头函数，箭头函数的指向取决于该箭头函数声明的位置，在哪里声明， this 就指向哪里
 
@@ -340,7 +341,7 @@ console.log(a()()());
 
 > 箭头函数其实是没有 this 的，这个函数中的 this 只取决于他外面的第一个不是箭头函数的函数的 this 。在这个例子中，因为调用 a 符合前面代码中的第一个情况，所以 this 是 window 。并且 this 一旦绑定了上下文，就不会被任何代码改变
 
-# 谈一谈函数中 this 的指向
+## 谈一谈函数中 this 的指向
 
 - this 的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定 this 到底指向谁，实际上 this 的最终指向的是那个调用它的对象
 - 《javascript 语言精髓》中大概概括了 4 种调用方式：
@@ -353,7 +354,7 @@ console.log(a()()());
   ```
 - apply/call 调用模式
 
-# 事件模型
+## 事件模型
 
 > W3C 中定义事件的发生经历三个阶段：捕获阶段（ capturing ）、目标阶段（ targetin ）、冒泡阶段（ bubbling ）
 
@@ -363,7 +364,7 @@ console.log(a()()());
 - 阻止冒泡：在 W3c 中，使用 stopPropagation() 方法；在 IE 下设置 cancelBubble = true
 - 阻止捕获：阻止事件的默认行为，例如 click - \<a> 后的跳转。在 W3c 中，使用 preventDefault() 方法，在 IE 下设置 window.event.returnValue = false
 
-# 事件的各个阶段
+## 事件的各个阶段
 
 - 1：捕获阶段 ---> 2：目标阶段 ---> 3：冒泡阶段
 - document ---> target 目标 ----> document
@@ -371,7 +372,7 @@ console.log(a()()());
   - true 表示该元素在事件的“捕获阶段”（由外往内传递时）响应事件
   - false 表示该元素在事件的“冒泡阶段”（由内向外传递时）响应事件
 
-# 说说事件流
+## 说说事件流
 
 事件流分为两种，捕获事件流和冒泡事件流
 
@@ -380,7 +381,7 @@ console.log(a()()());
 
 > 事件流分为三个阶段，一个是捕获节点，一个是处于目标节点阶段，一个是冒泡阶段
 
-# 事件机制
+## 事件机制
 
 **事件机制**
 事件触发三阶段
@@ -462,13 +463,13 @@ ul.addEventListener('click', (event) => {
 - 节省内存
 - 不需要给子节点注销事件
 
-# new 操作符具体干了什么呢?
+## new 操作符具体干了什么呢?
 
 - 创建一个空对象，并且 this 变量引用该对象，同时还继承了该函数的原型
 - 属性和方法被加入到 this 引用的对象中
 - 新创建的对象由 this 所引用，并且最后隐式的返回 this
 
-# new
+## new
 
 - 新生成了一个对象
 - 链接到原型
@@ -494,7 +495,7 @@ function create() {
 
 - 对于创建一个对象来说，更推荐使用字面量的方式创建对象（无论性能上还是可读性）。因为你使用 new Object() 的方式创建对象需要通过作用域链一层层找到 Object ，但是你使用字面量的方式就没这个问题
 
-# Ajax 原理
+## Ajax 原理
 
 - Ajax 的原理简单来说是在用户和服务器之间加了—个中间层( AJAX 引擎)，通过 XmlHttpRequest 对象来向服务器发异步请求，从服务器获得数据，然后用 javascript 来操作 DOM 而更新页面。使用户操作与服务器响应异步化。这其中最关键的一步就是从服务器获得请求数据
 - Ajax 的过程只涉及 JavaScript 、 XMLHttpRequest 和 DOM 。 XMLHttpRequest 是 ajax 的核心机制
@@ -532,7 +533,7 @@ ajax 有那些优缺点?
   - 对搜索引擎的支持比较弱。
   - 不容易调试。
 
-# 如何解决跨域问题?
+## 如何解决跨域问题?
 
 > 首先了解下浏览器的同源策略 同源策略 SOP（Same origin policy） 是一种约定，由 Netscape 公司 1995 年引入浏览器，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，浏览器很容易受到 XSS 、 CSFR 等攻击。所谓同源是指"协议+域名+端口"三者相同，即便两个不同的域名指向同一个 ip 地址，也非同源
 > 那么怎样解决跨域问题的呢？
@@ -604,7 +605,7 @@ ajax 有那些优缺点?
   });
   ```
 
-# 模块化开发怎么做？
+## 模块化开发怎么做？
 
 **立即执行函数,不暴露私有成员**
 
@@ -660,20 +661,20 @@ export function a() {}
 export default function () {}
 ```
 
-# 异步加载 JS 的方式有哪些？
+## 异步加载 JS 的方式有哪些？
 
 - defer，只支持 IE
 - async ：
 - 创建 script ，插入到 DOM 中，加载完毕后 callBack
 
-# 那些操作会造成内存泄漏
+## 那些操作会造成内存泄漏
 
 - 内存泄漏指任何对象在您不再拥有或需要它之后仍然存在
 - setTimeout 的第一个参数使用字符串而非函数的话，会引发内存泄漏
 - 闭包使用不当
 - 闭包、控制台日志、循环（在两个对象彼此引用且彼此保留时，就会产生一个循环）
 
-# 内存泄漏
+## 内存泄漏
 
 > 定义：程序中己动态分配的堆内存由于某种原因程序未释放或无法释放引发的各种问题。
 
@@ -692,7 +693,7 @@ export default function () {}
 - 避免创建过多的对象 原则：不用了的东西要及时归还。
 - 减少层级过多的引用
 
-# XML 和 JSON 的区别？
+## XML 和 JSON 的区别？
 
 - 数据体积方面
   - JSON 相对 于 XML 来讲，数据的体积小，传递的速度更快些。
@@ -703,7 +704,7 @@ export default function () {}
 - 传输速度方面
   - JSON 的速度要远远快于 XML
 
-# JSON 的了解
+## JSON 的了解
 
 JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式
 它是基于 JavaScript 的一个子集。数据格式简单, 易于读写, 占用带宽小
@@ -722,7 +723,7 @@ var last = obj.toJSONString();
 var last = JSON.stringify(obj);
 ```
 
-# 用过哪些设计模式？
+## 用过哪些设计模式？
 
 - 工厂模式：
   - 工厂模式解决了重复实例化的问题，但还有一个问题,那就是识别问题，因为根本无法
@@ -731,13 +732,13 @@ var last = JSON.stringify(obj);
   - 使用构造函数的方法，即解决了重复实例化的问题，又解决了对象识别的问题，该模式与工厂模式的不同之处在于
   - 直接将属性和方法赋值给 this 对象;
 
-# javascript 有哪些方法定义对象
+## javascript 有哪些方法定义对象
 
 - 对象字面量： var obj = {};
 - 构造函数： var obj = new Object();
 - Object.create(): var obj = Object.create(Object.prototype);
 
-# javascript 创建对象的几种方式
+## javascript 创建对象的几种方式
 
 > javascript 创建对象简单的说,无非就是使用内置对象或各种自定义对象，当然还可以用 JSON ；但写法有很多种，也能混合使用
 
@@ -802,7 +803,7 @@ var last = JSON.stringify(obj);
   camry.sell();
   ```
 
-# 说说你对 promise 的了解
+## 说说你对 promise 的了解
 
 - 依照 Promise/A+ 的定义， Promise 有四种状态：
 
@@ -837,17 +838,17 @@ promise.then(onFulfilled, onRejected);
 
 - 接收两个函数作为参数，一个在 fulfilled 的时候被调用，一个在 rejected 的时候被调用，接收参数就是 future ， onFulfilled 对应 resolve , onRejected 对应 reject
 
-# 介绍 js 的基本数据类型
+## 介绍 js 的基本数据类型
 
 Undefined 、 Null 、 Boolean 、 Number 、 String
 
-# 介绍 js 有哪些内置对象
+## 介绍 js 有哪些内置对象
 
 - Object 是 JavaScript 中所有对象的父对象
 - 数据封装类对象： Object 、 Array 、 Boolean 、 Number 和 String
 - 其他对象： Function 、 Arguments 、 Math 、 Date 、 RegExp 、 Error
 
-# 说几条写 JavaScript 的基本规范
+## 说几条写 JavaScript 的基本规范
 
 - 不要在同一行声明多个变量
 - 请使用 ===/!== 来比较 true/false 或者数值
@@ -857,7 +858,7 @@ Undefined 、 Null 、 Boolean 、 Number 、 String
 - If 语句必须使用大括号
 - for-in 循环中的变量 应该使用 var 关键字明确限定作用域，从而避免作用域污
 
-# JavaScript 有几种类型的值
+## JavaScript 有几种类型的值
 
 - 栈：原始数据类型（ Undefined ， Null ， Boolean ， Number 、 String ）
 - 堆：引用数据类型（对象、数组和函数）
@@ -865,50 +866,50 @@ Undefined 、 Null 、 Boolean 、 Number 、 String
 - 原始数据类型直接存储在栈( stack )中的简单数据段，占据空间小、大小固定，属于被频繁使用数据，所以放入栈中存储；
 - 引用数据类型存储在堆( heap )中的对象,占据空间大、大小不固定,如果存储在栈中，将会影响程序运行的性能；引用数据类型在栈中存储了指针，该指针指向堆中该实体的起始地址。当解释器寻找引用值时，会首先检索其在栈中的地址，取得地址后从堆中获得实体
 
-# eval 是做什么的
+## eval 是做什么的
 
 - 它的功能是把对应的字符串解析成 JS 代码并运行
 - 应该避免使用 eval ，不安全，非常耗性能（ 2 次，一次解析成 js 语句，一次执行）
 - 由 JSON 字符串转换为 JSON 对象的时候可以用 eval，var obj =eval('('+ str +')')
 
-# ["1", "2", "3"].map(parseInt) 答案是多少
+## ["1", "2", "3"].map(parseInt) 答案是多少
 
 - [1, NaN, NaN] 因为 parseInt 需要两个参数 (val, radix) ，其中 radix 表示解析时用的基数。
 - map 传了 3 个 (element, index, array) ，对应的 radix 不合法导致解析失败。
 
-# javascript 代码中的"use strict";是什么意思
+## javascript 代码中的"use strict";是什么意思
 
 - use strict 是一种 ECMAscript 5 添加的（严格）运行模式，这种模式使得 Javascript 在更严格的条件下运行，使 JS 编码更加规范化的模式，消除 Javascript 语法的一些不合理、不严谨之处，减少一些怪异行为
 
-# 说说严格模式的限制
+## 说说严格模式的限制
 
 - 变量必须声明后再使用
 - 函数的参数不能有同名属性，否则报错
 - 不能使用 with 语句
 - 禁止 this 指向全局对象
 
-# js 延迟加载的方式有哪些
+## js 延迟加载的方式有哪些
 
 defer 和 async 、动态创建 DOM 方式（用得最多）、按需异步载入 js
 
-# defer 和 async
+## defer 和 async
 
 - defer 并行加载 js 文件，会按照页面上 script 标签的顺序执行
 - async 并行加载 js 文件，下载完成立即执行，不会按照页面上 script 标签的顺序执行
 
-# 同步和异步的区别
+## 同步和异步的区别
 
 - 同步：浏览器访问服务器请求，用户看得到页面刷新，重新发请求，等请求完，页面刷新，新内容出现，用户看到新内容,进行下一步操作
 - 异步：浏览器访问服务器请求，用户正常操作，浏览器后端进行请求。等请求完，页面不刷新，新内容也会出现，用户看到新内容
 
-# attribute 和 property 的区别是什么
+## attribute 和 property 的区别是什么
 
 - attribute 是 dom 元素在文档中作为 html 标签拥有的属性；
 - property 就是 dom 元素在 js 中作为对象拥有的属性。
 - 对于 html 的标准属性来说， attribute 和 property 是同步的，是会自动更新的
 - 但是对于自定义的属性来说，他们是不同步的
 
-# 谈谈你对 ES6 的理解
+## 谈谈你对 ES6 的理解
 
 - 新增模板字符串（为 JavaScript 提供了简单的字符串插值功能）
 - 箭头函数
@@ -920,18 +921,18 @@ defer 和 async 、动态创建 DOM 方式（用得最多）、按需异步载�
 - let 命令实际上就增加了块级作用域。
 - 还有就是引入 module 模块的概念
 
-# ECMAScript6 怎么写 class 么
+## ECMAScript6 怎么写 class 么
 
 - 这个语法糖可以让有 OOP 基础的人更快上手 js ，至少是一个官方的实现了
 - 但对熟悉 js 的人来说，这个东西没啥大影响；一个 Object.creat() 搞定继承，比 class 简洁清晰的多
 
-# 什么是面向对象编程及面向过程编程，它们的异同和优缺点
+## 什么是面向对象编程及面向过程编程，它们的异同和优缺点
 
 - 面向过程就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候一个一个依次调用就可以了
 - 面向对象是把构成问题事务分解成各个对象，建立对象的目的不是为了完成一个步骤，而是为了描叙某个事物在整个解决问题的步骤中的行为
 - 面向对象是以功能来划分问题，而不是步骤
 
-# 面向对象编程思想
+## 面向对象编程思想
 
 - 基本思想是使用对象，类，继承，封装等基本概念来进行程序设计
 - 优点
@@ -941,7 +942,7 @@ defer 和 async 、动态创建 DOM 方式（用得最多）、按需异步载�
   - 开发工作的重用性、继承性高，降低重复工作量。
   - 缩短了开发周期
 
-# 如何通过 JS 判断一个数组
+## 如何通过 JS 判断一个数组
 
 - instanceof 方法
   - instanceof 运算符是用来测试一个对象是否在其原型链原型构造函数的属性
@@ -972,7 +973,7 @@ defer 和 async 、动态创建 DOM 方式（用得最多）、按需异步载�
   console.log(Array.isArray(b)); //false
   ```
 
-# 谈一谈 let 与 var 的区别
+## 谈一谈 let 与 var 的区别
 
 - 函数提升优先于变量提升，函数提升会把整个函数挪到作用域顶部，变量提升只会把声明挪到作用域顶部
 - var 存在提升，我们能在声明之前使用。 let 、 const 因为暂时性死区的原因，不能在声明前使用
@@ -980,7 +981,7 @@ defer 和 async 、动态创建 DOM 方式（用得最多）、按需异步载�
 - 如果块区中存在 let 和 const 命令，就会形成封闭作用域
 - 不允许重复声明，因此，不能在函数内部重新声明参数
 
-# let var const
+## let var const
 
 let
 
@@ -1000,24 +1001,24 @@ const
 - 基本数据当值发生改变时，那么其对应的指针也将发生改变，故造成 const 申明基本数据类型时再将其值改变时，将会造成报错， 例如 const a = 3 ; a = 5 时 将会报错
 - 但是如果是复合类型时，如果只改变复合类型的其中某个 Value 项时， 将还是正常使用
 
-# map 与 forEach 的区别
+## map 与 forEach 的区别
 
 - forEach 方法，是最基本的方法，就是遍历与循环，默认有 3 个传参：分别是遍历的数组内容 item 、数组索引 index 、和当前遍历数组 Array
 - map 方法，基本用法与 forEach 一致，但是不同的，它会返回一个新的数组，所以在 callback 需要有 return 值，如果没有，会返回 undefined
 
-# 谈一谈你理解的函数式编程
+## 谈一谈你理解的函数式编程
 
 - 简单说，"函数式编程"是一种"编程范式"（programming paradigm），也就是如何编写程序的方法论
 - 它具有以下特性：闭包和高阶函数、惰性计算、递归、函数是"第一等公民"、只用"表达式"
 
-# 谈一谈箭头函数与普通函数的区别？
+## 谈一谈箭头函数与普通函数的区别？
 
 - 函数体内的 this 对象，就是定义时所在的对象，而不是使用时所在的对象
 - 不可以当作构造函数，也就是说，不可以使用 new 命令，否则会抛出一个错误
 - 不可以使用 arguments 对象，该对象在函数体内不存在。如果要用，可以用 Rest 参数代替
 - 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数
 
-# 异步编程的实现方式
+## 异步编程的实现方式
 
 - 回调函数
   - 优点：简单、容易理解
@@ -1037,11 +1038,11 @@ const
   - 优点：内置执行器、更好的语义、更广的适用性、返回的是 Promise、结构清晰。
   - 缺点：错误处理机制
 
-# 对原生 Javascript 了解程度
+## 对原生 Javascript 了解程度
 
 数据类型、运算、对象、Function、继承、闭包、作用域、原型链、事件、 RegExp 、JSON 、 Ajax 、 DOM 、 BOM 、内存泄漏、跨域、异步装载、模板引擎、前端 MVC 、路由、模块化、 Canvas 、 ECMAScript
 
-# Js 动画与 CSS 动画区别及相应实现
+## Js 动画与 CSS 动画区别及相应实现
 
 - CSS3 的动画的优点
   - 在性能上会稍微好一些，浏览器会对 CSS3 的动画做一些优化
@@ -1051,7 +1052,7 @@ const
   - 兼容性不好
 - JavaScript 的动画正好弥补了这两个缺点，控制能力很强，可以单帧的控制、变换，同时写得好完全可以兼容 IE6 ，并且功能强大。对于一些复杂控制的动画，使用 javascript 会比较靠谱。而在实现一些小的交互动效的时候，就多考虑考虑 CSS 吧
 
-# JS 数组和对象的遍历方式，以及几种方式的比较
+## JS 数组和对象的遍历方式，以及几种方式的比较
 
 > 通常我们会用循环的方式来遍历数组。但是循环是 导致 js 性能问题的原因之一。一般我们会采用下几种方式来进行数组的遍历
 
@@ -1066,7 +1067,7 @@ const
 - 在方式一中， for-in 需要分析出 array 的每个属性，这个操作性能开销很大。用在 key 已知的数组上是非常不划算的。所以尽量不要用 for-in ，除非你不清楚要处理哪些属性，例如 JSON 对象这样的情况
 - 在方式 2 中，循环每进行一次，就要检查一下数组长度。读取属性（数组长度）要比读局部变量慢，尤其是当 array 里存放的都是 DOM 元素，因为每次读取都会扫描一遍页面上的选择器相关元素，速度会大大降低
 
-# 怎样添加、移除、移动、复制、创建和查找节点
+## 怎样添加、移除、移动、复制、创建和查找节点
 
 创建新节点
 
@@ -1093,13 +1094,13 @@ getElementsByName(); //通过元素的Name属性的值
 getElementById(); //通过元素Id，唯一性
 ```
 
-# 正则表达式
+## 正则表达式
 
 > 正则表达式构造函数 var reg=new RegExp(“xxx”) 与正则表达字面量 var reg=// 有什么不同？匹配邮箱的正则表达式？
 
 - 当使用 RegExp() 构造函数的时候，不仅需要转义引号（即 \ ”表示”），并且还需要双反斜杠（即 \\\ 表示一个 \ ）。使用正则表达字面量的效率更高
 
-# Javascript 中 callee 和 caller 的作用
+## Javascript 中 callee 和 caller 的作用
 
 - caller 是返回一个对函数的引用，该函数调用了当前函数；
 - callee 是返回正在被执行的 function 函数，也就是所指定的 function 对象的正文
@@ -1124,7 +1125,7 @@ var result=[];
 }
 ```
 
-# caller 和 callee 的区别
+## caller 和 callee 的区别
 
 **caller**
 
@@ -1158,7 +1159,7 @@ function a() {
 }
 ```
 
-# window.onload 和$(document).ready
+## window.onload 和$(document).ready
 
 > 原生 JS 的 window.onload 与 Jquery 的 $(document).ready(function(){})有什么不同？如何用原生 JS 实现 Jq 的 ready 方法？
 
@@ -1196,14 +1197,14 @@ document.ready = function (callback) {
 };
 ```
 
-# addEventListener()和 attachEvent()的区别
+## addEventListener()和 attachEvent()的区别
 
 - addEventListener() 是符合 W3C 规范的标准方法; attachEvent() 是 IE 低版本的非标准方法
 - addEventListener() 支持事件冒泡和事件捕获; - 而 attachEvent() 只支持事件冒泡
 - addEventListener() 的第一个参数中,事件类型不需要添加 on ; attachEvent() 需要添加 'on'
 - 如果为同一个元素绑定多个事件, addEventListener() 会按照事件绑定的顺序依次执行,attachEvent() 会按照事件绑定的顺序倒序执行
 
-# （设计题）想实现一个对页面某个节点的拖曳？如何做？（使用原生 JS）
+## （设计题）想实现一个对页面某个节点的拖曳？如何做？（使用原生 JS）
 
 - 给需要拖拽的节点绑定 mousedown , mousemove , mouseup 事件
 - mousedown 事件触发后，开始拖拽
@@ -1211,7 +1212,7 @@ document.ready = function (callback) {
 - mouseup 时，拖拽结束
 - 需要注意浏览器边界的情况
 
-# Javascript 全局函数和全局变量
+## Javascript 全局函数和全局变量
 
 **全局变量**
 
@@ -1235,11 +1236,11 @@ document.ready = function (callback) {
 - String() 把对象的值转换为字符串。
 - unescape() 对由 escape() 编码的字符串进行解码
 
-# 怎么判断两个对象相等？
+## 怎么判断两个对象相等？
 
 JSON.stringify(obj)==JSON.stringify(obj2);//true
 
-# 深浅拷贝
+## 深浅拷贝
 
 浅拷贝
 
@@ -1255,7 +1256,7 @@ JSON.stringify(obj)==JSON.stringify(obj2);//true
   不能解决循环引用的对象
 - 递归
 
-# 谈谈变量提升？
+## 谈谈变量提升？
 
 > 当执行 JS 代码时，会生成执行环境，只要代码不是写在函数中的，就是在全局执行环境中，函数中的代码会产生函数执行环境，只此两种执行环境
 
@@ -1288,7 +1289,7 @@ var b = "Hello world";
 
 > 复制代码 var 会产生很多错误，所以在 ES6 中引入了 let 。 let 不能在声明前使用，但是这并不是常说的 let 不会提升， let 提升了，在第一阶段内存也已经为他开辟好了空间，但是因为这个声明的特性导致了并不能在声明前使用
 
-# 什么是单线程，和异步的关系
+## 什么是单线程，和异步的关系
 
 - 单线程 - 只有一个线程，只能做一件事
 - 原因 - 避免 DOM 渲染的冲突
@@ -1299,7 +1300,7 @@ var b = "Hello world";
   - webworker 支持多线程，但是不能访问 DOM
 - 解决方案 - 异步
 
-# 说说 event loop
+## 说说 event loop
 
 **进程与线程**
 
@@ -1502,7 +1503,7 @@ process.nextTick(() => {
 // nextTick, timer1, promise1
 ```
 
-# js 自定义事件
+## js 自定义事件
 
 > 三要素： document.createEvent() event.initEvent() element.dispatchEvent()
 
@@ -1541,7 +1542,7 @@ Element.prototype.triggerEvent = function (en) {
 };
 ```
 
-# 内置类型
+## 内置类型
 
 - JS 中分为七种内置类型，七种内置类型又分为两大类型：基本类型和对象（ Object ）。
 - 基本类型有六种： null ， undefined ， boolean， number ， string ， symbol 。
@@ -1562,7 +1563,7 @@ b.name = "EF";
 console.log(a.name); // EF
 ```
 
-# Typeof
+## Typeof
 
 > typeof 对于基本类型，除了 null 都可以显示正确的类型
 
@@ -1615,7 +1616,7 @@ let undefined = 1;
 a === void 0;
 ```
 
-# 类型转换
+## 类型转换
 
 **转 Boolean**
 
@@ -1678,7 +1679,7 @@ ToPrimitive([]) == 0
 - 如果是对象，就通过 toPrimitive 转换对象
 - 如果是字符串，就通过 unicode 字符索引来比较
 
-# instanceof
+## instanceof
 
 > instanceof 可以正确的判断对象的类型，因为内部机制是通过判断对象的原型链中是不是能找到类型的 prototype
 > 我们也可以试着实现一下 instanceof
@@ -1700,7 +1701,7 @@ function instanceof(left, right) {
 }
 ```
 
-# 执行上下文
+## 执行上下文
 
 > 当执行 JS 代码时，会产生三种执行上下文
 
@@ -1816,7 +1817,7 @@ specialObject.foo = foo; // {DontDelete}, {ReadOnly}
 delete Scope[0]; // remove specialObject from the front of scope chain
 ```
 
-# == 和 === 有什么区别
+## == 和 === 有什么区别
 
 > 对于 == 来说，如果对比双方的类型不一样的话，就会进行类型转换
 > 假如我们需要对比 x 和 y 是否相同，就会进行如下判断流程
@@ -1834,7 +1835,7 @@ delete Scope[0]; // remove specialObject from the front of scope chain
 '1' == '[object Object]'
 ```
 
-# 为什么 0.1 + 0.2 != 0.3
+## 为什么 0.1 + 0.2 != 0.3
 
 因为 JS 采用 IEEE 754 双精度版本（ 64 位），并且只要采用 IEEE 754 的语言都有该问题
 

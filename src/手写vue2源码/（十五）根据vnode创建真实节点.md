@@ -1,12 +1,13 @@
 ---
 title: （十五）根据vnode创建真实节点
+order: 15
 ---
 
 根据 vnode 创建真实节点
 
 <!-- more -->
 
-# 前情回顾
+## 前情回顾
 
 mountComponent 方法：将组件挂载到 vm.$el 上
 在 mountComponent 中，通过调用 vm 实例方法 vm.\_render 生成了 vnode
@@ -40,7 +41,7 @@ vm.\_render 执行完成后，就得到了虚拟节点 vnode
 
 这里，需要 vm.\_update 方法：负责完成将虚拟节点更新到页面上
 
-# vm.\_update 方法
+## vm.\_update 方法
 
 ```js
 // src/lifecycle.js
@@ -110,7 +111,7 @@ export default Vue;
 
 TODO：\_update 为什么选择在 Vue 原型上进行扩展？
 
-# patch 方法
+## patch 方法
 
 vnode 是一个描述了节点关系的对象
 要根据虚拟节点渲染出真实节点，就需要将 vnode 对象递归进行渲染（先序深度遍历创建节点）
@@ -161,7 +162,7 @@ export function lifeCycleMixin(Vue){
 后续的更新算法，删除算法及组件更新也会在 patch 中实现
 而这部分主要的难点就是组件更新
 
-# createElm 根据虚拟节点创建真实节点
+## createElm 根据虚拟节点创建真实节点
 
 createElm 方法：根据虚拟节点创建真实节点
 
@@ -204,7 +205,7 @@ function createElm(vnode) {
 
 当前生成的真实节点还缺少了 id#app
 
-# 处理 data 属性
+## 处理 data 属性
 
 在生成元素时如果有 data 属性，需要将 data 设置到元素上，否则会丢失 id#app
 

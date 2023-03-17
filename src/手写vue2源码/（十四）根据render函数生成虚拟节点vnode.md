@@ -1,5 +1,6 @@
 ---
 title: （十四）根据render函数生成虚拟节点vnode
+order: 14
 ---
 
 根据 render 函数，生成虚拟节点 vnode

@@ -1,12 +1,13 @@
 ---
 title: （十三）包装with生成render函数
+order: 13
 ---
 
 生成 render 函数 - 函数生成
 
 <!-- more -->
 
-# 包装 with 并生成 render 函数
+## 包装 with 并生成 render 函数
 
 ```js
 export function compileToFunction(template) {
@@ -51,7 +52,7 @@ Vue.prototype.$mount = function (el) {
 
 ![](/images/手写vue2源码/（十三）包装with生成render函数/打印输出1.png)
 
-# 生成 render 函数的大致流程：
+## 生成 render 函数的大致流程：
 
 从 html 模板到生成 render 函数的大致流程：
 

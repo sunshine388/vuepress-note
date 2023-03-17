@@ -1,12 +1,13 @@
 ---
-title: （二十六）diff算法-收尾+阶段性总结
+title: （二十六）diff算法-收尾和阶段性总结
+order: 26
 ---
 
 diff 算法的阶段性梳理
 
 <!-- more -->
 
-# 初渲染与视图更新流程
+## 初渲染与视图更新流程
 
 1. Vue 初渲染时，会调用 mountComponent 方法进行挂载，在 mountComponent 方法中，会创建一个 watcher；
 2. 当数据更新时，进入 Object.defineProperty 的 set 方法，在 set 方法中，会调用 dep.notify() 通知收集的 watcher 调用 update 方法做更新渲染；
@@ -16,7 +17,7 @@ diff 算法的阶段性梳理
 6. this.getter 是 Watcher 类实例化时传入的视图更新方法 fn，即 updateComponent 视图渲染逻辑
 7. 执行 updateComponent 中的 vm.\_render，使用最新数据重新生成虚拟节点并调用 update 更新视图
 
-# diff 算法的外层更新
+## diff 算法的外层更新
 
 在 Vue 中，每次数据变化时，并不会对节点做全量的替换，而是会对新老虚拟节点进行 diff 比对：
 
@@ -58,9 +59,9 @@ style 的处理：
 > 老样式对象中有，新样式对象中没有，删掉多余样式；
 > 新样式对象中有，覆盖到老样式对象中；
 
-# diff 算法的比对优化
+## diff 算法的比对优化
 
-## 新老儿子节点的情况
+### 新老儿子节点的情况
 
 情况 1：老的有儿子，新的没有儿子
 处理方法：直接将多余的老 dom 元素删除即可；
@@ -71,22 +72,22 @@ style 的处理：
 情况 3：新老都有儿子
 处理方法：进行 diff 比对；
 
-## 新老儿子节点的 diff 比对
+### 新老儿子节点的 diff 比对
 
 新老儿子节点的比对，采用了头尾双指针的方法;
 新老节点都有儿子时，进行头头、尾尾、头尾、尾头对比；
 头头、尾尾、头尾、尾头均没有命中时，进行乱序比对;
 
-# diff 算法的乱序比对
+## diff 算法的乱序比对
 
 根据老儿子集合创建一个节点 key 和索引 index 的映射关系 mapping；用新儿子节点依次到 mapping 中查找是否存在可复用的节点；
 存在复用节点，更新可复用节点属性并移动到对应位置；（移动走的老位置要做空标记）
 不存在复用节点，创建节点并添加到对应位置；
 最后，再将不可复用的老节点删除；
 
-# diff 算法收尾
+## diff 算法收尾
 
-## 问题分析
+### 问题分析
 
 至此，已经完成了 diff 算法的全部逻辑编写，但一直使用模拟新老节点更新;
 原因在于，每次更新时都执行 patch(vm.$el, vnode)
@@ -172,7 +173,7 @@ export function patch(oldVnode, vnode) {
 }
 ```
 
-## 正常使用方式
+### 正常使用方式
 
 将模拟节点更新的代码全部注释掉，并修改 index.html
 
@@ -198,7 +199,7 @@ export function patch(oldVnode, vnode) {
 </body>
 ```
 
-## 测试修改前效果
+### 测试修改前效果
 
 测试 patch 方法修改前的效果：
 ![](/images/手写vue2源码/（二十六）diff算法-收尾+阶段性总结/img1.png)
@@ -206,7 +207,7 @@ export function patch(oldVnode, vnode) {
 测试结果：将 div 标签全部干掉，重新创建了一次；
 原因分析：每次都执行 vm.$el = patch(vm.$el, vnode);，没有区分初渲染和更新渲染；
 
-## 如何区分初渲染和更新渲染
+### 如何区分初渲染和更新渲染
 
 如何区分初渲染和更新渲染？
 
@@ -215,7 +216,7 @@ export function patch(oldVnode, vnode) {
 > 初渲染，执行 patch(vm.$el, vnode)；
 > 更新渲染，执行 patch(preVnode, vnode)；
 
-## 代码实现
+### 代码实现
 
 ```js
 export function lifeCycleMixin(Vue){
@@ -236,7 +237,7 @@ export function lifeCycleMixin(Vue){
 }
 ```
 
-## 测试修改后的效果
+### 测试修改后的效果
 
 测试 patch 方法修改后的效果：
 ![](/images/手写vue2源码/（二十六）diff算法-收尾+阶段性总结/img2.png)

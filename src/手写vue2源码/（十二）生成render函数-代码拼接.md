@@ -1,5 +1,6 @@
 ---
 title: （十二）生成render函数-代码拼接
+order: 12
 ---
 
 使用 ast 语法树生成 render 函数 - 代码拼接部分

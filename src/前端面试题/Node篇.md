@@ -1,12 +1,13 @@
 ---
 title: Node篇
+order: 17
 ---
 
 Node 篇
 
 <!-- more -->
 
-# Node 的应用场景
+## Node 的应用场景
 
 - 特点：
   - 它是一个 Javascript 运行环境
@@ -20,7 +21,7 @@ Node 篇
   - 只支持单核 CPU ，不能充分利用 CPU
   - 可靠性低，一旦代码某个环节崩溃，整个系统都崩溃
 
-# 尽可能多的说出你对 Electron 的理解
+## 尽可能多的说出你对 Electron 的理解
 
 > 最最重要的一点， electron 实际上是一个套了 Chrome 的 nodeJS 程序
 

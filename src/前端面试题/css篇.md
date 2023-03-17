@@ -1,5 +1,6 @@
 ---
-title: css篇
+title: css
+order: 2
 ---
 
 css 相关面试题
@@ -10,7 +11,7 @@ css 相关面试题
 
 [《50 道 CSS 基础面试题（附答案）》中的答案真的就只是答案吗？](https://segmentfault.com/a/1190000013860482)
 
-# css 优先级是怎么计算的
+## css 优先级是怎么计算的
 
 - 第一优先级：!important 会覆盖页面内任何位置的元素样式
 - 内联样式，如 style="color: green"，权值为 1000
@@ -20,7 +21,7 @@ css 相关面试题
 - 通配符、子类选择器、兄弟选择器，如\*, >, +，权值为 0000
 - 继承的样式没有权值
 
-# CSS 不同选择器的权重(CSS 层叠的规则)
+## CSS 不同选择器的权重(CSS 层叠的规则)
 
 - !important 规则最重要，大于其它规则
 - 行内样式规则，加 1000
@@ -29,13 +30,13 @@ css 相关面试题
 - 对于选择其中给定的各个元素标签选择器，加 1
 - 如果权值一样，则按照样式规则的先后顺序来应用，顺序靠后的覆盖靠前的规则
 
-# CSS 优先级算法如何计算？
+## CSS 优先级算法如何计算？
 
 - 优先级就近原则，同权重情况下样式定义最近者为准
 - 载入样式以最后载入的定位为准
 - 优先级为: !important > id > class > tag ; !important 比 内联优先级高
 
-# css sprite 是什么,有什么优缺点
+## css sprite 是什么,有什么优缺点
 
 - 概念：将多个小图片拼接到一个图片中。通过 background-position 和元素尺寸调节需要显示的背景图案。
 - 优点：
@@ -46,7 +47,7 @@ css 相关面试题
   - 图片合并麻烦
   - 维护麻烦，修改一个图片可能需要从新布局整个图片，样式
 
-# display: none; 与 visibility: hidden; 的区别
+## display: none; 与 visibility: hidden; 的区别
 
 联系：它们都能让元素不可见
 区别：
@@ -56,7 +57,7 @@ css 相关面试题
 - 修改常规流中元素的 display 通常会造成文档重排。修改 visibility 属性只会造成本元素的重绘。
 - 读屏器不会读取 display: none ;元素内容；会读取 visibility: hidden; 元素内容
 
-# link 与 @import 的区别
+## link 与 @import 的区别
 
 1. link 是 HTML 方式， @import 是 CSS 方式
 2. link 最大限度支持并行下载， @import 过多嵌套导致串行下载，出现 FOUC (文档样式短暂失效)
@@ -65,12 +66,12 @@ css 相关面试题
 5. @import 必须在样式规则之前，可以在 css 文件中引用其他文件
 6. 总体来说： link 优于 @import
 
-# 什么是 FOUC?如何避免
+## 什么是 FOUC?如何避免
 
 - Flash Of Unstyled Content ：用户定义样式表加载之前浏览器使用默认样式显示文档，用户样式加载渲染之后再从新显示文档，造成页面闪烁。
 - 解决方法：把样式表放到文档的 \<head>
 
-# display、float、position 的关系
+## display、float、position 的关系
 
 - 如果 display 取值为 none ，那么 position 和 float 都不起作用，这种情况下元素不产生框
 - 否则，如果 position 取值为 absolute 或者 fixed ，框就是绝对定位的， float 的计算值为 none ， display 根据下面的表格进行调整。
@@ -79,7 +80,7 @@ css 相关面试题
 - 其他情况下 display 的值为指定值
 - 总结起来：绝对定位、浮动、根元素都需要调整 display
 
-# 清除浮动的几种方式，各自的优缺点
+## 清除浮动的几种方式，各自的优缺点
 
 - 父级 div 定义 height
 - 结尾处加空 div 标签 clear:both
@@ -90,7 +91,7 @@ css 相关面试题
 
 比较好的是第 3 种方式，好多网站都这么用
 
-# 谈谈浮动和清除浮动
+## 谈谈浮动和清除浮动
 
 浮动的框可以向左或向右移动，直到他的外边缘碰到包含框或另一个浮动框的边框为止。由于浮动框不在文档的普通流中，所以文档的普通流的块框表现得就像浮动框不存在一样。浮动的块框会漂浮在文档普通流的块框上
 
@@ -100,12 +101,12 @@ css 相关面试题
 2. 与浮动元素同级的非浮动元素（内联元素）会跟随其后
 3. 若非第一个元素浮动，则该元素之前的元素也需要浮动，否则会影响页面显示的结构。
 
-# 为什么要初始化 CSS 样式
+## 为什么要初始化 CSS 样式
 
 - 因为浏览器的兼容问题，不同浏览器对有些标签的默认值是不同的，如果没对 CSS 初始化往往会出现浏览器之间的页面显示差异。
 - 当然，初始化样式会对 SEO 有一定的影响，但鱼和熊掌不可兼得，但力求影响最小的情况下初始化
 
-# css3 有哪些新特性
+## css3 有哪些新特性
 
 - 新增各种 css 选择器
 - 圆角 border-radius
@@ -115,7 +116,7 @@ css 相关面试题
 - 线性渐变
 - 旋转 transform
 
-# CSS3 新增伪类有那些？
+## CSS3 新增伪类有那些？
 
 - p:first-of-type 选择属于其父元素的首个 \<p> 元素的每个 \<p> 元素
 - p:last-of-type 选择属于其父元素的最后 \<p> 元素的每个 \<p>元素。
@@ -128,7 +129,7 @@ css 相关面试题
 - :disabled 已禁用的表单元素。
 - :checked 单选框或复选框被选中。
 
-# display 有哪些值？说明他们的作用
+## display 有哪些值？说明他们的作用
 
 - block 转换成块状元素。
 - inline 转换成行内元素。
@@ -138,7 +139,7 @@ css 相关面试题
 - table 此元素会作为块级表格来显示
 - inherit 规定应该从父元素继承 display 属性的值
 
-# position 的值， relative 和 absolute 定位原点是
+## position 的值， relative 和 absolute 定位原点是
 
 - absolute ：生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位
 - fixed ：生成绝对定位的元素，相对于浏览器窗口进行定位
@@ -146,7 +147,7 @@ css 相关面试题
 - static 默认值。没有定位，元素出现在正常的流中
 - inherit 规定从父元素继承 position 属性的值
 
-# display:inline-block 什么时候不会显示间隙？
+## display:inline-block 什么时候不会显示间隙？
 
 - 移除空格
 - 使用 margin 负值
@@ -154,7 +155,7 @@ css 相关面试题
 - letter-spacing
 - word-spacing
 
-# PNG\GIF\JPG 的区别及如何选
+## PNG\GIF\JPG 的区别及如何选
 
 GIF
 
@@ -178,51 +179,51 @@ PNG
 - PNG8 类似 GIF 颜色上限为 256 ，文件小，支持 alpha 透明度，无动画
 - 适合图标、背景、按钮
 
-# 行内元素 float:left 后是否变为块级元素？
+## 行内元素 float:left 后是否变为块级元素？
 
 行内元素设置成浮动之后变得更加像是 inline-block （行内块级元素，设置成这个属性的元素会同时拥有行内和块级的特性，最明显的不同是它的默认宽度不是 100% ），这时候给行内元素设置 padding-top 和 padding-bottom 或者 width 、 height 都是有效果的
 
-# 在网页中的应该使用奇数还是偶数的字体？为什么呢？
+## 在网页中的应该使用奇数还是偶数的字体？为什么呢？
 
 偶数字号相对更容易和 web 设计的其他部分构成比例关系
 
-# ::before 和 :after 中双冒号和单冒号 有什么区别？解释一下这 2 个伪元素的作用
+## ::before 和 :after 中双冒号和单冒号 有什么区别？解释一下这 2 个伪元素的作用
 
 - 单冒号( : )用于 CSS3 伪类，双冒号( :: )用于 CSS3 伪元素
 - 用于区分伪类和伪元素
 
-# 伪类和伪元素的区别
+## 伪类和伪元素的区别
 
 - 伪类表状态
 - 伪元素是真的有元素
 - 前者单冒号，后者双冒号
 
-# 如果需要手动写动画，你认为最小时间间隔是多久，为什么？
+## 如果需要手动写动画，你认为最小时间间隔是多久，为什么？
 
 多数显示器默认频率是 60Hz ，即 1 秒刷新 60 次，所以理论上最小间隔为 1/60\*1000ms ＝ 16.7ms
 
-# CSS 合并方法
+## CSS 合并方法
 
 避免使用 @import 引入多个 css 文件，可以使用 CSS 工具将 CSS 合并为一个 CSS 文件，例如使用 Sass\Compass 等
 
-# 列出你所知道可以改变页面布局的属性
+## 列出你所知道可以改变页面布局的属性
 
 position 、 display 、 float 、 width 、 height 、 margin 、 padding 、 top 、left 、 right 、`
 
-# CSS 在性能优化方面的实践
+## CSS 在性能优化方面的实践
 
 - css 压缩与合并、 Gzip 压缩
 - css 文件放在 head 里、不要用 @import
 - 尽量用缩写、避免用滤镜、合理使用选择器
 
-# CSS3 动画（简单动画的实现，如旋转等）
+## CSS3 动画（简单动画的实现，如旋转等）
 
 - 依靠 CSS3 中提出的三个属性： transition 、 transform 、 animation
 - transition ：定义了元素在变化过程中是怎么样的，包含 transition-property 、transition-duration 、 transition-timing-function 、 transition-delay 。
 - transform ：定义元素的变化结果，包含 rotate 、 scale 、 skew 、 translate 。
 - animation ：动画定义了动作的每一帧（ @keyframes ）有什么效果，包括 animation-name ， animation-duration 、 animation-timing-function 、 animation-delay 、animation-iteration-count 、 animation-direction
 
-# 说一说 css3 的 animation
+## 说一说 css3 的 animation
 
 - css3 的 animation 是 css3 新增的动画属性，这个 css3 动画的每一帧是通过 @keyframes 来声明的， keyframes 声明了动画的名称，通过 from 、 to 或者是百分比来定义每一帧动画元素的状态，通过 animation-name 来引用这个动画，同时 css3 动画也可以定义动画运行的时长、动画开始时间、动画播放方向、动画循环次数、动画播放的方式，
 - 这些相关的动画子属性有：
@@ -235,25 +236,25 @@ position 、 display 、 float 、 width 、 height 、 margin 、 padding 、 t
   - animation-play-state 定义播放状态，如暂停运行等；
   - animation-timing-function 定义播放的方式，如恒速播放、艰涩播放等。
 
-# base64 的原理及优缺点
+## base64 的原理及优缺点
 
 优点可以加密，减少了 HTTTP 请求
 缺点是需要消耗 CPU 进行编解码
 
-# base64 的使用
+## base64 的使用
 
 - 用于减少 HTTP 请求
 - 适用于小图片
 - base64 的体积约为原图的 4/3
 
-# stylus/sass/less 区别
+## stylus/sass/less 区别
 
 - 均具有“变量”、“混合”、“嵌套”、“继承”、“颜色混合”五大基本特性
 - Scss 和 LESS 语法较为严谨， LESS 要求一定要使用大括号“{}”， Scss 和 Stylus 可以通过缩进表示层次与嵌套关系
 - Scss 无全局变量的概念， LESS 和 Stylus 有类似于其它语言的作用域概念
 - Sass 是基于 Ruby 语言的，而 LESS 和 Stylus 可以基于 NodeJS NPM 下载相应库后进行编译；
 
-# Sass、LESS 是什么？大家为什么要使用他们
+## Sass、LESS 是什么？大家为什么要使用他们
 
 - 他们是 CSS 预处理器。他是 CSS 上的一种抽象层。他们是一种特殊的语法/语言编译成 CSS 。
 - 例如 Less 是一种动态样式语言. 将 CSS 赋予了动态语言的特性，如变量，继承，运算， 函数。LESS 既可以在客户端上运行 (支持 IE 6+ , Webkit , Firefox )，也可一在服务端运行(借助 Node.js )
@@ -265,24 +266,24 @@ position 、 display 、 float 、 width 、 height 、 margin 、 padding 、 t
 - 可以轻松实现多重继承。
 - 完全兼容 CSS 代码，可以方便地应用到老项目中。LESS 只- 是在 CSS 语法上做了扩展，所以老的 CSS 代码也可以与 LESS 代码一同编译
 
-# postcss 的作用
+## postcss 的作用
 
 - 可以直观的理解为：它就是一个平台。为什么说它是一个平台呢？因为我们直接用它，感觉不能干什么事情，但是如果让一些插件在它上面跑，那么将会很强大
 - PostCSS 提供了一个解析器，它能够将 CSS 解析成抽象语法树
 - 通过在 PostCSS 这个平台上，我们能够开发一些插件，来处理我们的 CSS ，比如热门的： autoprefixer
 - postcss 可以对 sass 处理过后的 css 再处理 最常见的就是 autoprefixer
 
-# 自定义字体的使用场景
+## 自定义字体的使用场景
 
 宣传/品牌/ banner 等固定文案、字体图标
 
-# 如何美化 CheckBox
+## 如何美化 CheckBox
 
 - \<label> 属性 for 和 id
 - 隐藏原生的 \<input>
 - :checked + \<label>
 
-# 请用 CSS 写一个简单的幻灯片效果页面
+## 请用 CSS 写一个简单的幻灯片效果页面
 
 使用 animation 动画实现一个简单的幻灯片效果
 
@@ -318,7 +319,7 @@ position 、 display 、 float 、 width 、 height 、 margin 、 padding 、 t
 }
 ```
 
-# 什么是外边距重叠？重叠的结果是什么？
+## 什么是外边距重叠？重叠的结果是什么？
 
 外边距重叠就是 margin-collapse
 
@@ -330,17 +331,17 @@ position 、 display 、 float 、 width 、 height 、 margin 、 padding 、 t
 - 两个相邻的外边距都是负数时，折叠结果是两者绝对值的较大值。
 - 两个外边距一正一负时，折叠结果是两者的相加的和。
 
-# rgba()和 opacity 的透明效果有什么不同
+## rgba()和 opacity 的透明效果有什么不同
 
 - rgba() 和 opacity 都能实现透明效果，但最大的不同是 opacity 作用于元素，以及元素内的所有内容的透明度，
 - 而 rgba() 只作用于元素的颜色或其背景色。（设置 rgba 透明的元素的子元素不会继承透明效果！）
 
-# css 中可以让文字在垂直和水平方向上重叠的两个属性是什么
+## css 中可以让文字在垂直和水平方向上重叠的两个属性是什么
 
 垂直方向： line-height
 水平方向： letter-spacing
 
-# 如何垂直居中一个浮动元素
+## 如何垂直居中一个浮动元素
 
 ```js
 //方法一：已知元素的高宽
@@ -368,7 +369,7 @@ position 、 display 、 float 、 width 、 height 、 margin 、 padding 、 t
 }
 ```
 
-# 如何垂直居中一个 \<img> ?（用更简便的方法。）
+## 如何垂直居中一个 \<img> ?（用更简便的方法。）
 
 ```js
 #container //<img>的容器设置如下
@@ -379,12 +380,12 @@ position 、 display 、 float 、 width 、 height 、 margin 、 padding 、 t
 }
 ```
 
-# px 和 em 的区别
+## px 和 em 的区别
 
 - px 和 em 都是长度单位，区别是， px 的值是固定的，指定是多少就是多少，计算比较容易。 em 的值不是固定的，并且 em 会继承父级元素的字体大小。
 - 浏览器的默认字体高都是 16px 。所以未经调整的浏览器都符合: 1em=16px 。那么 12px=0.75em , 10px=0.625em
 
-# 知道 css 有个 content 属性吗？有什么作用？有什么应用？
+## 知道 css 有个 content 属性吗？有什么作用？有什么应用？
 
 css 的 content 属性专门应用在 before/after 伪元素上，用于来插入生成内容。最常见的应用是利用伪类清除浮动。
 
@@ -402,13 +403,13 @@ css 的 content 属性专门应用在 before/after 伪元素上，用于来插�
 }
 ```
 
-# 如何使用 CSS 实现硬件加速？
+## 如何使用 CSS 实现硬件加速？
 
 > 硬件加速是指通过创建独立的复合图层，让 GPU 来渲染这个图层，从而提高性能，
 
 - 一般触发硬件加速的 CSS 属性有 transform 、 opacity 、 filter ，为了避免 2D 动画在开始和结束的时候的 repaint 操作，一般使用 tranform:translateZ(0)
 
-# 重绘和回流（重排）是什么，如何避免
+## 重绘和回流（重排）是什么，如何避免
 
 - DOM 的变化影响到了元素的几何属性（宽高），浏览器重新计算元素的几何属性，其他元素的几何属性和位置也会受到影响，浏览器需要重新构造渲染树，这个过程称为重排，浏览器将受到影响的部分重新绘制到屏幕上的过程称为重绘。
 
@@ -426,7 +427,7 @@ css 的 content 属性专门应用在 before/after 伪元素上，用于来插�
 - 使用 fragment
 - 对于多次重排的元素，如动画，使用绝对定位脱离文档流，让他的改变不影响到其他元素
 
-# 几种常见的 CSS 布局
+## 几种常见的 CSS 布局
 
 流体布局
 
@@ -539,7 +540,7 @@ css 的 content 属性专门应用在 before/after 伪元素上，用于来插�
 }
 ```
 
-# 自适应布局
+## 自适应布局
 
 思路：
 
@@ -547,7 +548,7 @@ css 的 content 属性专门应用在 before/after 伪元素上，用于来插�
 - 使用 \<div> 包含，然后靠负 margin 形成 bfc
 - 使用 flex
 
-# 水平居中的方法
+## 水平居中的方法
 
 - 元素为行内元素，设置父元素 text-align:center
 - 如果元素宽度固定，可以设置左右 margin 为 auto ;
@@ -555,7 +556,7 @@ css 的 content 属性专门应用在 before/after 伪元素上，用于来插�
 - 使用 flex-box 布局，指定 justify-content 属性为 center
 - display 设置为 tabel-ceil
 
-# 垂直居中的方法
+## 垂直居中的方法
 
 - 将显示方式设置为表格， display:table-cell ,同时设置 vertial-align：middle
 - 使用 flex 布局，设置为 align-item：center
@@ -563,7 +564,7 @@ css 的 content 属性专门应用在 before/after 伪元素上，用于来插�
 - 绝对定位中固定高度时设置 top:50%，margin-top 值为高度一半的负值
 - 文本垂直居中设置 line-height 为 height 值
 
-# 两种以上方式实现已知或者未知宽度的垂直水平居中
+## 两种以上方式实现已知或者未知宽度的垂直水平居中
 
 ```css
 // 1
@@ -607,7 +608,7 @@ css 的 content 属性专门应用在 before/after 伪元素上，用于来插�
 }
 ```
 
-# 左边宽度固定，右边自适应
+## 左边宽度固定，右边自适应
 
 html 结构
 
@@ -710,7 +711,7 @@ html 结构
 }
 ```
 
-# 左边定宽，右边自适应方案：float + margin，float + calc
+## 左边定宽，右边自适应方案：float + margin，float + calc
 
 ```js
 /* 方案1 */
@@ -732,7 +733,7 @@ html 结构
 }
 ```
 
-# 左右两边定宽，中间自适应：float，float + calc, 圣杯布局（设置 BFC，margin 负值法），flex
+## 左右两边定宽，中间自适应：float，float + calc, 圣杯布局（设置 BFC，margin 负值法），flex
 
 ```js
 .wrap {
@@ -782,18 +783,18 @@ html 结构
 }
 ```
 
-# 如何实现小于 12px 的字体效果
+## 如何实现小于 12px 的字体效果
 
 transform:scale() 这个属性只可以缩放可以定义宽高的元素，而行内元素是没有宽高的，我们可以加上一个 display:inline-block ;
 transform: scale(0.7);
 
-# offsetWidth/offsetHeight,clientWidth/clientHeight 与 scrollWidth/scrollHeight 的区别
+## offsetWidth/offsetHeight,clientWidth/clientHeight 与 scrollWidth/scrollHeight 的区别
 
 - offsetWidth/offsetHeight 返回值包含 content + padding + border，效果与 e.getBoundingClientRect()相同
 - clientWidth/clientHeight 返回值只包含 content + padding，如果有滚动条，也不包含滚动条
 - scrollWidth/scrollHeight 返回值包含 content + padding + 溢出内容的尺寸
 
-# 常见兼容性问题？
+## 常见兼容性问题？
 
 - png24 位的图片在 iE6 浏览器上出现背景，解决方案是做成 PNG8
 - 浏览器默认的 margin 和 padding 不同。解决方案是加一个全局的 \*{margin:0;padding:0;} 来统一，但是全局效率很低，一般是如下这样解决：
@@ -806,7 +807,7 @@ transform: scale(0.7);
 - IE 下, event 对象有 x , y 属性,但是没有 pageX , pageY 属性
 - Firefox 下, event 对象有 pageX , pageY 属性,但是没有 x,y 属性
 
-# 现在要你完成一个 Dialog 组件，说说你设计的思路？它应该有什么功能？
+## 现在要你完成一个 Dialog 组件，说说你设计的思路？它应该有什么功能？
 
 - 该组件需要提供 hook 指定渲染位置，默认渲染在 body 下面。
 - 然后改组件可以指定外层样式，如宽度等
@@ -817,7 +818,7 @@ transform: scale(0.7);
 - 组件高度可能大于页面高度，组件内部需要滚动条。
 - 只有组件的 visible 有变化且为 ture 时候，才重渲染组件内的所有内容
 
-# 盒模型：content（元素内容） + padding（内边距） + border（边框） + margin（外边距）
+## 盒模型：content（元素内容） + padding（内边距） + border（边框） + margin（外边距）
 
 延伸： box-sizing
 
@@ -825,13 +826,13 @@ transform: scale(0.7);
 - border-box ：盒子宽度包含 padding 和 border ， 总宽度 = margin + width
 - inherit ：从父元素继承 box-sizing 属性
 
-# 介绍一下标准的 CSS 的盒子模型？低版本 IE 的盒子模型有什么不同的
+## 介绍一下标准的 CSS 的盒子模型？低版本 IE 的盒子模型有什么不同的
 
 - 有两种， IE 盒子模型、 W3C 盒子模型；
 - 盒模型： 内容(content)、填充( padding )、边界( margin )、 边框( border )；
 - 区 别： IE 的 content 部分把 border 和 padding 计算了进去;
 
-# 如何创建块级格式化上下文(block formatting context)，BFC 有什么用
+## 如何创建块级格式化上下文(block formatting context)，BFC 有什么用
 
 - 创建规则：
   - 根元素
@@ -844,7 +845,7 @@ transform: scale(0.7);
   - 不被浮动元素覆盖
   - 阻止父子元素的 margin 折叠
 
-# 对 BFC 规范的理解？
+## 对 BFC 规范的理解？
 
 它决定了元素如何对其内容进行定位,以及与其他元素的关系和相互作用
 
@@ -857,7 +858,7 @@ transform: scale(0.7);
 5. BFC 是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。
 6. 计算 BFC 的高度时，浮动元素也会参与计算。
 
-# BFC、IFC、GFC、FFC：FC（Formatting Contexts），格式化上 下文
+## BFC、IFC、GFC、FFC：FC（Formatting Contexts），格式化上 下文
 
 > BFC ：块级格式化上下文，容器里面的子元素不会在布局上影响到外面的元素，反之也是如此(按照这个理念来想，只要脱离文档流，肯定就能产生 BFC )。产生 BFC 方式如下
 

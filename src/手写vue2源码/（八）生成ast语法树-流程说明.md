@@ -1,14 +1,15 @@
 ---
 title: （八）生成ast语法树-流程说明
+order: 8
 ---
 
 生成 ast 语法树-流程说明
 
 <!-- more -->
 
-# vue 提供的方式
+## vue 提供的方式
 
-## 三种模板写法及优先级
+### 三种模板写法及优先级
 
 ```js
 <body>
@@ -36,7 +37,7 @@ title: （八）生成ast语法树-流程说明
 > 使用 template
 > 使用元素中的内容
 
-## 两种数据挂载方式
+### 两种数据挂载方式
 
 在 Vue2.x 中，提供了两种挂载方式：
 
@@ -51,7 +52,7 @@ let vm = new Vue({
 当挂载点 vm.$options.el 存在，或直接调用了 Vue 的原型方法 $mount 时，
 就会通过 Vue 上的原型方法 $mount 对数据进行挂载操作
 
-# Vue 的原型方法 $mount
+## Vue 的原型方法 $mount
 
 在 $mount 中，拿到 el 挂载点指向的真实 dom 元素，并使用新内容将它替换掉
 
@@ -88,9 +89,9 @@ export function initMixin(Vue) {
 }
 ```
 
-# 将模板编译为 ast 语法树
+## 将模板编译为 ast 语法树
 
-## compileToFunction
+### compileToFunction
 
 在 vue 中，编译阶段的最终结果是输出 render 函数：
 
@@ -119,7 +120,7 @@ function generate(ast) {
 在 Vue 中，compileToFunction 方法是 Vue 编译的入口，
 完成了以上两个操作，最终将模板编译成为 render 函数；
 
-## parserHTML
+### parserHTML
 
 parserHTML 方法：将 HTML 模板编译成为 ast 语法树
 

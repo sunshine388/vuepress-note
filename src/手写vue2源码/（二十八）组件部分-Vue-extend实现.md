@@ -1,14 +1,15 @@
 ---
 title: （二十八）组件部分-Vue.extend实现
+order: 28
 ---
 
 Vue.extend 实现
 
 <!-- more -->
 
-# Vue.extend 简介
+## Vue.extend 简介
 
-## 前文回顾
+### 前文回顾
 
 上篇，在 Vue.component 的实现中，通过 Vue.component 创建组件时：
 两种方式：既可以传入函数，也可以传入对象
@@ -26,7 +27,7 @@ var MyComponent = Vue.component('my-component')
 
 若入参 definition 组件定义是一个对象：在 Vue.component 内部将使用 Vue.extend 进行处理，结果会产生一个组件的构造函数，并保存到全局 Vue.options.components 上备用；
 
-## Vue.extend 简介
+### Vue.extend 简介
 
 Vue.extend:使用基础 Vue 构造器，创建一个“子类”。
 options 参数是一个包含组件选项的对象。
@@ -60,9 +61,9 @@ new Profile().$mount('#mount-point')
 <p>Walter White aka Heisenberg</p>
 ```
 
-# Vue.extend 实现
+## Vue.extend 实现
 
-# 当前代码
+## 当前代码
 
 ```js
 // src/global-api/index.js
@@ -102,7 +103,7 @@ export function initGlobalAPI(Vue) {
 }
 ```
 
-## Vue.extend 内部逻辑
+### Vue.extend 内部逻辑
 
 Vue.extend 会使用基础 Vue 构造器，生成一个子类；
 所以，Vue.extend 内部需要生成一个继承 Vue 的子类 Sub：
@@ -122,7 +123,7 @@ Vue.extend = function (definition) {
 }
 ```
 
-## 组件的初始化
+### 组件的初始化
 
 创造一个组件，实际就是 new 这个组件的类；
 在前面的组件初始化过程中，当执行 new Vue 时会调用 Vue 原型方法 \_init：
@@ -186,7 +187,7 @@ function Vue(options) {
 }
 ```
 
-## 子类继承父类
+### 子类继承父类
 
 那么，子类如何继承于父类？
 子类 Sub 继承于父类，即继承 Vue 的原型方法：
@@ -217,7 +218,7 @@ Vue.extend = function (definition) {
 > 如果 data 是对象，由于对象是引用类型，指向同一个引用地址，new Component 后 data 是共用的；
 > data 是函数，每次 new Component 时组件内部都是一个独立的对象；
 
-## 修复 constructor 指向问题
+### 修复 constructor 指向问题
 
 **问题分析**
 Object.create 实现原理：

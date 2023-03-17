@@ -1,5 +1,6 @@
 ---
 title: TypeScript篇
+order: 4
 ---
 
 ## 什么是 TypeScript？

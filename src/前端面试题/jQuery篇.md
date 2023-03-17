@@ -1,12 +1,13 @@
 ---
 title: jQuery篇
+order: 9
 ---
 
 jQuery 篇
 
 <!-- more -->
 
-# 你觉得 jQuery 源码有哪些写的好的地方
+## 你觉得 jQuery 源码有哪些写的好的地方
 
 - jquery 源码封装在一个匿名函数的自执行环境中，有助于防止变量的全局污染，然后通过传入 window 对象参数，可以使 window 对象作为局部变量使用，好处是当 jquery 中访问 window 对象的时候，就不用将作用域链退回到顶层作用域了，从而可以更快的访问 window 对象。同样，传入 undefined 参数，可以缩短查找
   ```js
@@ -22,21 +23,21 @@ jQuery 篇
 - 有一些数组或对象的方法经常能使用到， jQuery 将其保存为局部变量以提高访问速度
 - jquery 实现的链式调用可以节约代码，所返回的都是同一个对象，可以提高代码效率 undefined 时的作用域链
 
-# 是否用过 jQuery 的 Deferred
+## 是否用过 jQuery 的 Deferred
 
-# jQuery 的实现原理
+## jQuery 的实现原理
 
 - (function(window, undefined) {})(window);
 - jQuery 利用 JS 函数作用域的特性，采用立即调用表达式包裹了自身，解决命名空间和变量污染问题
 - window.jQuery = window.$ = jQuery;
 - 在闭包当中将 jQuery 和 $ 绑定到 window 上，从而将 jQuery 和 $ 暴露为全局变量
 
-# Query.fn 的 init 方法返回的 this 指的是什么对象
+## Query.fn 的 init 方法返回的 this 指的是什么对象
 
 - jQuery.fn 的 init 方法 返回的 this 就是 jQuery 对象
 - 用户使用 jQuery() 或 $() 即可初始化 jQuery 对象，不需要动态的去调用 init 方法
 
-# jQuery.extend 与 jQuery.fn.extend 的区别
+## jQuery.extend 与 jQuery.fn.extend 的区别
 
 - $.fn.extend() 和 $.extend() 是 jQuery 为扩展插件提拱了两个方法
 - $.extend(object) ; // 为 jQuery 添加“静态方法”（工具方法）
@@ -67,12 +68,12 @@ jQuery 篇
   $("#email").alertValue();
   ```
 
-# jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝
+## jQuery 的属性拷贝(extend)的实现原理是什么，如何实现深拷贝
 
 - 浅拷贝（只复制一份原始对象的引用） var newObject = $.extend({}, oldObject);
 - 深拷贝（对原始对象属性所引用的对象进行进行递归拷贝） var newObject =$.extend(true, {}, oldObject);
 
-# jQuery 的队列是如何实现的
+## jQuery 的队列是如何实现的
 
 - jQuery 核心中有一组队列控制方法，由 queue()/dequeue()/clearQueue() 三个方法组成。
 - 主要应用于 animate() ， ajax ，其他要按时间顺序执行的事件中
@@ -97,14 +98,14 @@ $('#box').dequeue("queue1"); // return func4 and do func4
 $('#box').clearQueue("queue1"); // delete queue1 with clearQueue
 ```
 
-# jQuery 中的 bind(), live(), delegate(), on()的区别
+## jQuery 中的 bind(), live(), delegate(), on()的区别
 
 - bind() 直接绑定在目标元素上
 - live() 通过冒泡传播事件，默认 document 上，支持动态数据
 - delegate() 更精确的小范围使用事件代理，性能优于 live
 - on() 是最新的 1.9 版本整合了之前的三种方式的新事件绑定机制
 
-# 是否知道自定义事件
+## 是否知道自定义事件
 
 - 事件即“发布/订阅”模式，自定义事件即“消息发布”，事件的监听即“订阅订阅”
 - JS 原生支持自定义事件，示例：
@@ -116,12 +117,12 @@ $('#box').clearQueue("queue1"); // delete queue1 with clearQueue
   ```
 - jQuery 里的 fire 函数用于调用 jQuery 自定义事件列表中的事件
 
-# jQuery 通过哪个方法和 Sizzle 选择器结合的
+## jQuery 通过哪个方法和 Sizzle 选择器结合的
 
 - Sizzle 选择器采取 Right To Left 的匹配模式，先搜寻所有匹配标签，再判断它的父节点
 - jQuery 通过 $(selecter).find(selecter); 和 Sizzle 选择器结合
 
-# jQuery 中如何将数组转化为 JSON 字符串，然后再转化回来
+## jQuery 中如何将数组转化为 JSON 字符串，然后再转化回来
 
 ```js
 // 通过原生 JSON.stringify/JSON.parse 扩展 jQuery 实现
@@ -137,7 +138,7 @@ var json = $.array2json(['a', 'b', 'c']);
 var array = $.json2array(json);
 ```
 
-# jQuery 一个对象可以同时绑定多个事件，这是如何实现的
+## jQuery 一个对象可以同时绑定多个事件，这是如何实现的
 
 ```js
 $("#btn").on("mouseover mouseout", func);
@@ -148,7 +149,7 @@ $("#btn").on({
 });
 ```
 
-# 针对 jQuery 的优化方法
+## 针对 jQuery 的优化方法
 
 - 缓存频繁操作 DOM 对象
 - 尽量使用 id 选择器代替 class 选择器
@@ -158,29 +159,29 @@ $("#btn").on({
 - 采用 jQuery 的内部函数 data() 来存储数据
 - 使用最新版本的 jQuery
 
-# jQuery 的 slideUp 动画，当鼠标快速连续触发, 动画会滞后反复执 行，该如何处理呢
+## jQuery 的 slideUp 动画，当鼠标快速连续触发, 动画会滞后反复执 行，该如何处理呢
 
 - 在触发元素上的事件设置为延迟处理：使用 JS 原生 setTimeout 方法
 - 在触发元素的事件时预先停止所有的动画，再执行相应的动画事件：
   $('.tab').stop().slideUp();
 
-# jQuery UI 如何自定义组件
+## jQuery UI 如何自定义组件
 
 - 通过向 $.widget() 传递组件名称和一个原型对象来完成
 - $.widget("ns.widgetName", [baseWidget], widgetPrototype);
 
-# jQuery 与 jQuery UI、jQuery Mobile 区别
+## jQuery 与 jQuery UI、jQuery Mobile 区别
 
 - jQuery 是 JS 库，兼容各种 PC 浏览器，主要用作更方便地处理 DOM 、事件、动画、AJAX
 - jQuery UI 是建立在 jQuery 库上的一组用户界面交互、特效、小部件及主题
 - jQuery Mobile 以 jQuery 为基础，用于创建“移动 Web 应用”的框架
 
-# jQuery 和 Zepto 的区别？ 各自的使用场
+## jQuery 和 Zepto 的区别？ 各自的使用场
 
 - jQuery 主要目标是 PC 的网页中，兼容全部主流浏览器。在移动设备方面，单独推出jQuery Mobile
 - Zepto 从一开始就定 位移动设备，相对更轻量级。它的 API 基本兼容 jQuery，但对 PC 浏览器兼容不理想
 
-# jQuery 对象的特点
+## jQuery 对象的特点
 
 - 只有 JQuery 对象才能使用 JQuery 方法
 - JQuery 对象是一个数组对象

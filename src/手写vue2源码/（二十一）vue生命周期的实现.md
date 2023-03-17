@@ -1,25 +1,26 @@
 ---
 title: （二十一）vue生命周期的实现
+order: 21
 ---
 
 Vue 生命周期的实现
 
 <!-- more -->
 
-# Vue.mixin 介绍
+## Vue.mixin 介绍
 
-## mixin 简介
+### mixin 简介
 
 Vue2 中可以通过 Vue.mixin 为 vue 进行功能扩展
 开发中，经常使用 mixin 来为所有组件增加一些生命周期
 
-## mixin 使用
+### mixin 使用
 
 vue 初始化时，使用 beforeCreate 生命周期钩子
 再通过 Vue.mixin 扩展对 beforeCreate 进行功能扩展
 这样在实际执行时，多个 beforeCreate 会进行合并
 
-## 生命周期的用法
+### 生命周期的用法
 
 ```js
 // 使用 Vue.mixin 做全局扩展
@@ -44,9 +45,9 @@ let vm = new Vue({
 });
 ```
 
-# Vue 的 Global API
+## Vue 的 Global API
 
-## 全局 api 和 实例 api 的使用
+### 全局 api 和 实例 api 的使用
 
 ```js
 // 全局 api：对所有组件生效
@@ -57,16 +58,16 @@ new Vue({
 })
 ```
 
-## 全局 api 的实现原理
+### 全局 api 的实现原理
 
 new Vue 组件初始化时：
 
 1. 通过 options 使用实例 api 声明，仅对当前组件生效；
 2. 通过 Vue.component 全局声明的属性将被合并到每一个组件中，全局生效；
 
-# Vue.mixin 实现
+## Vue.mixin 实现
 
-## 添加 mixin 方法
+### 添加 mixin 方法
 
 创建 Vue 全局 api 模块：src/global-api；
 新建 src/global-api/index.js，为 Vue 添加 mixi 静态方法:
@@ -102,7 +103,7 @@ initGlobalAPI(Vue) // 初始化 global Api
 export default Vue;
 ```
 
-## 实现 Global API
+### 实现 Global API
 
 在全局属性 Vue.options 中存放属性，供全局使用：
 
@@ -122,7 +123,7 @@ export function initGlobalAPI(Vue) {
 }
 ```
 
-## 多个 Vue.mixin 的合并策略
+### 多个 Vue.mixin 的合并策略
 
 全局 mixin 也可以被多次调用：
 
@@ -193,7 +194,7 @@ export function mergeOptions(parentVal, childVal) {
 }
 ```
 
-## 生命周期的合并策略
+### 生命周期的合并策略
 
 策略模式：将不同生命周期的合并使用不同的策略做区分
 
@@ -248,12 +249,12 @@ export function initGlobalAPI(Vue) {
 }
 ```
 
-## 测试
+### 测试
 
 测试 Vue.mixin 中的生命周期合并结果：
 ![](/images/手写vue2源码/（二十一）vue生命周期的实现/打印输出1.png)
 
-# 全局与实例的生命周期合并
+## 全局与实例的生命周期合并
 
 全局生命周期合并完成后，还要在和 new Vuechu 初始化中的局部声明再进行合并
 
@@ -283,9 +284,9 @@ Vue 的子类对 Vue 可能做了增强；子组件可能会继承 Vue；
 Vue.options 就是指 Vue；而 vm.constructor 指子类（子组件）的构造函数；
 ```
 
-# 生命周期的实现
+## 生命周期的实现
 
-## 创建生命周期执行函数
+### 创建生命周期执行函数
 
 在 src/lifecycle.js 生命周期模块中，创建执行生命周期钩子函数 callHook：
 
@@ -309,7 +310,7 @@ export function callHook(vm, hook){
 }
 ```
 
-## 添加生命周期钩子
+### 添加生命周期钩子
 
 当视图渲染前，调用钩子: beforeCreate
 视图更新后，调用钩子: created
@@ -362,7 +363,7 @@ function flushschedulerQueue() {
 }
 ```
 
-## 测试生命周期执行流程
+### 测试生命周期执行流程
 
 Vue.mixin 中的 2 个 beforeCreate 钩子;
 new Vue 中的 2 个 beforeCreate 钩子;

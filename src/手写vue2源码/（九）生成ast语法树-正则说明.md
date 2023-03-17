@@ -1,14 +1,15 @@
 ---
 title: （九）生成ast语法树-正则说明
+order: 9
 ---
 
 生成 ast 语法树-正则说明
 
 <!-- more -->
 
-# 模板解析
+## 模板解析
 
-## 模板解析的说明
+### 模板解析的说明
 
 ```js
 export function compileToFunction(template) {
@@ -27,7 +28,7 @@ compileToFunction 主要做了以上两件事：
 而将 html 模板编译为 ast 语法树，就是用 js 对象的树形结构来描述 HTML 语法；
 这里需要对 html 模板进行解析，而解析的方式就是使用正则不断进行匹配和处理；
 
-## 模板的解析方式
+### 模板的解析方式
 
 使用正则对 html 模板进行顺序解析和处理
 每处理完一段，就将处理完的这部分截取掉
@@ -58,9 +59,9 @@ function parserHTML(html) {
 > 内容开头的第一个字符是否为尖角号 < ：
 > 如果是尖角号，说明是标签；如果不是尖角号，说明是文本
 
-# 正则说明
+## 正则说明
 
-## Vue2 相关的正则
+### Vue2 相关的正则
 
 ```js
 // 标签名 a-aaa
@@ -79,7 +80,7 @@ const startTagClose = /^\s*(\/?)>/;
 const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g;
 ```
 
-## 匹配标签名
+### 匹配标签名
 
 匹配标签名 aa-xxx
 
@@ -100,7 +101,7 @@ console.log(reg)  // 	/[a-zA-Z_][\-\.0-9_a-zA-Z]*/
 console.log(reg.test('a-aaa')) // true	任意小写字符 a-z，中间有-，后面可以方字符
 ```
 
-## 命名空间标签
+### 命名空间标签
 
 命名空间标签：aa:aa-xxx
 
@@ -120,7 +121,7 @@ ${ncname} 标签名
 	如：aa:aa-xxx	此类命名空间标签使用较少
 ```
 
-## 匹配开始标签-开始部分
+### 匹配开始标签-开始部分
 
 ```js
 // 匹配标签名(索引1)：<aa:aa-xxx
@@ -139,7 +140,7 @@ console.log('<aa:aa-xxx'.match(startTagOpen))
 ]
 ```
 
-## 匹配结束标签
+### 匹配结束标签
 
 ```js
 // 匹配标签名(索引1)：</aa:aa-xxxdsadsa>
@@ -162,7 +163,7 @@ console.log('</aa:aa-xxxdsadsa>'.match(endTag))
 ]
 ```
 
-## 匹配属性
+### 匹配属性
 
 ```js
 // 匹配属性（索引 1 为属性 key、索引 3、4、5 其中一直为属性值）：aaa="xxx"、aaa='xxx'、aaa=xxx
@@ -228,7 +229,7 @@ console.log('aaa=xxx'.match(attribute))
 属性的值：[3]||[4]||[5]    索引 3、4、5 哪个有值取哪个
 ```
 
-## 匹配开始标签-闭合部分
+### 匹配开始标签-闭合部分
 
 ```js
 // 匹配结束标签：>
@@ -242,7 +243,7 @@ const startTagClose = /^\s*(\/?)>/;
   >		没有/的闭合
 ```
 
-## 匹配表达式
+### 匹配表达式
 
 ```js
 // 匹配 {{   xxx    }} ，匹配到 xxx
