@@ -23,18 +23,18 @@ export function compileToFunction(template) {
 compileToFunction 主要做了以上两件事：
 
 > 将模板变成 AST 语法树
+>
 > 使用 AST 生成 render 函数
 
-而将 html 模板编译为 ast 语法树，就是用 js 对象的树形结构来描述 HTML 语法；
-这里需要对 html 模板进行解析，而解析的方式就是使用正则不断进行匹配和处理；
+而将 html 模板编译为 ast 语法树，就是用 js 对象的树形结构来描述 HTML 语法；这里需要对 html 模板进行解析，而解析的方式就是使用正则不断进行匹配和处理；
 
 ### 模板的解析方式
 
-使用正则对 html 模板进行顺序解析和处理
-每处理完一段，就将处理完的这部分截取掉
-就这样不停的进行解析和截取，直至将整个模板全部解析完毕
+1. 使用正则对 html 模板进行顺序解析和处理
+2. 每处理完一段，就将处理完的这部分截取掉
+3. 就这样不停的进行解析和截取，直至将整个模板全部解析完毕
 
-```js
+```html
 <!-- start：从头开始，使用正则不断进行匹配和截取 -->
 <div>abcdefg<span></span></div>		开始标签：<div>
 abcdefg<span></span></div>				文本：abcdefg
@@ -48,8 +48,8 @@ abcdefg<span></span></div>				文本：abcdefg
 
 ```js
 function parserHTML(html) {
-  while(html){
-		// todo...
+  while (html) {
+    // todo...
   }
 }
 ```
@@ -57,6 +57,7 @@ function parserHTML(html) {
 标签还是文本？
 
 > 内容开头的第一个字符是否为尖角号 < ：
+>
 > 如果是尖角号，说明是标签；如果不是尖角号，说明是文本
 
 ## 正则说明
@@ -73,7 +74,8 @@ const startTagOpen = new RegExp(`^<${qnameCapture}`); // 标签开头的正则 �
 // 结束标签
 const endTag = new RegExp(`^<\\/${qnameCapture}[^>]*>`); // 匹配标签结尾的 </div>
 // 匹配属性
-const attribute = /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/;
+const attribute =
+  /^\s*([^\s"'<>\/=]+)(?:\s*(=)\s*(?:"([^"]*)"+|'([^']*)'+|([^\s"'=<>`]+)))?/;
 // 匹配标签结束的 >
 const startTagClose = /^\s*(\/?)>/;
 // 匹配 {{ }} 表达式
@@ -91,14 +93,15 @@ const ncname = `[a-zA-Z_][\\-\\.0-9_a-zA-Z]*`;
 正则解析
 
 > 正则的开始和结尾被/包裹
-> \\-\\编译成\-\. （第一个\，\-是转译中划线-的；第二个\，\.是转译.的，）
+>
+> \\\\-\\\\编译成\\-\\. （第一个\，\\\-是转译中划线-的；第二个\，\\\.是转译.的，）
 
 测试匹配结果
 
 ```js
 let reg = new RegExp(ncname);
-console.log(reg)  // 	/[a-zA-Z_][\-\.0-9_a-zA-Z]*/
-console.log(reg.test('a-aaa')) // true	任意小写字符 a-z，中间有-，后面可以方字符
+console.log(reg); // 	/[a-zA-Z_][\-\.0-9_a-zA-Z]*/
+console.log(reg.test("a-aaa")); // true	任意小写字符 a-z，中间有-，后面可以方字符
 ```
 
 ### 命名空间标签
@@ -111,7 +114,7 @@ const qnameCapture = `((?:${ncname}\\:)?${ncname})`;
 
 正则解析
 
-```js
+```
 (?:${ncname}\\:)?
 	?: - 表示匹配但是不捕获
 	后面可以有一个冒号
@@ -247,5 +250,5 @@ const startTagClose = /^\s*(\/?)>/;
 
 ```js
 // 匹配 {{   xxx    }} ，匹配到 xxx
-const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g
+const defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g;
 ```

@@ -15,13 +15,13 @@ order: 10
 // src/compiler/index.js#parserHTML
 
 function parserHTML(html) {
-  while(html){
+  while (html) {
     // 解析标签or文本，看第一个字符是否为尖角号 <
-    let index = html.indexOf('<');
-    if(index == 0){
-      console.log("是标签")
-    } else{
-      console.log("是文本")
+    let index = html.indexOf("<");
+    if (index == 0) {
+      console.log("是标签");
+    } else {
+      console.log("是文本");
     }
   }
 }
@@ -30,16 +30,17 @@ function parserHTML(html) {
 ### parseStartTag 解析开始标签
 
 包含尖叫号 < 的情况，有可能是开始标签，但也有可能是结束标签
+
 所以当为标签时，先使用正则匹配开始标签；如果没有匹配成功，再使用结束标签进行匹配
 
 parseStartTag 方法：匹配开始标签，返回匹配结果
+
 备注：匹配结果的索引 1 可以得到标签名，属性后续解析
 
 ```js
 // src/compiler/index.js#parserHTML
 
 function parserHTML(html) {
-
   /**
    * 匹配开始标签，返回匹配结果
    */
@@ -48,35 +49,38 @@ function parserHTML(html) {
     const start = html.match(startTagOpen);
     // 构造匹配结果，包含标签名和属性
     const match = {
-      tagName:start[1],
-      attrs:[]
-    }
-    console.log("match结果：" + match)
+      tagName: start[1],
+      attrs: [],
+    };
+    console.log("match结果：" + match);
   }
 
   // 对模板不停截取，直至全部解析完毕
   while (html) {
     // 解析标签和文本(看开头是否为<)
-    let index = html.indexOf('<');
+    let index = html.indexOf("<");
     if (index == 0) {
-      console.log("解析 html：" + html + ",结果：是标签")
+      console.log("解析 html：" + html + ",结果：是标签");
       // 如果是标签，继续解析开始标签和属性
-      const startTagMatch = parseStartTag();// 匹配开始标签，返回匹配结果
-      if (startTagMatch) {  // 匹配到开始标签
+      const startTagMatch = parseStartTag(); // 匹配开始标签，返回匹配结果
+      if (startTagMatch) {
+        // 匹配到开始标签
         continue; // 如果是开始标签，无需执行下面逻辑，继续下次 while 解析后续内容
       }
       // 没有匹配到开始标签，此时有可能为结束标签 </div>，继续处理结束标签
-      if (html.match(endTag)) {// 匹配到结束标签
+      if (html.match(endTag)) {
+        // 匹配到结束标签
         continue; // 如果是结束标签，无需执行下面逻辑，继续下次 while 解析后续内容
       }
     } else {
-      console.log("解析 html：" + html + ",结果：是文本")
+      console.log("解析 html：" + html + ",结果：是文本");
     }
   }
 }
 ```
 
 为了实现对已经匹配到标签进行截取，
+
 需要 advance 方法：前进，即截取至当前已解析位置
 
 ```js
@@ -114,7 +118,7 @@ function parserHTML(html) {
 
 ### 解析开始标签中的属性
 
-```js
+```
 id="app">{{message}}</div>
 ```
 
@@ -127,37 +131,37 @@ function parseStartTag() {
   const start = html.match(startTagOpen);
   const match = {
     tagName: start[1],
-    attrs: []
-  }
-  console.log("match 结果：" + match)
+    attrs: [],
+  };
+  console.log("match 结果：" + match);
   // 截取匹配到的结果
-  advance(start[0].length)
-  console.log("截取后的 html：" + html)
+  advance(start[0].length);
+  console.log("截取后的 html：" + html);
 
-  let end;  // 是否匹配到开始标签的结束符号 > 或 />
+  let end; // 是否匹配到开始标签的结束符号 > 或 />
   let attr; // 存储属性匹配的结果
   // 匹配属性且不能为开始的结束标签，例如：<div>，到 > 就已经结束了，不再继续匹配该标签内的属性
   // 		attr = html.match(attribute)  匹配属性并赋值当前属性的匹配结果
   // 		!(end = html.match(startTagClose))   没有匹配到开始标签的关闭符号 > 或 />
   while (!(end = html.match(startTagClose)) && (attr = html.match(attribute))) {
     // 将匹配到的属性，push 到 attrs 数组中，匹配到关闭符号 >，while 就结束
-    match.attrs.push({ name: attr[1], value: attr[3] || attr[4] || attr[5] })
-    advance(attr[0].length)// 截取匹配到的属性 xxx=xxx
+    match.attrs.push({ name: attr[1], value: attr[3] || attr[4] || attr[5] });
+    advance(attr[0].length); // 截取匹配到的属性 xxx=xxx
   }
   // 匹配到关闭符号 >,当前标签处理完成 while 结束
   // 此时，<div id="app" 处理完成，需连同关闭符号 > 一起被截取掉
   if (end) {
-    advance(end[0].length)
+    advance(end[0].length);
   }
 
   // 开始标签处理完成后，返回匹配结果：tagName 标签名 + attrs属性
-  return match
+  return match;
 }
 ```
 
 ### 开始标签的处理步骤
 
-```js
+```
 <div id="app" a=1 b=2>
 
 处理过程：
@@ -178,6 +182,7 @@ function parseStartTag() {
 ### 处理开始标签、结束标签和文本
 
 继续，将开始标签的状态（开始标签、结束标签、文本标签）发射出去
+
 编写三个发射状态的方法，分别用于向外发射开始标签、结束标签、文本标签
 
 ```js
@@ -187,15 +192,15 @@ function parseStartTag() {
 
 // 开始标签
 function start(tagName, attrs) {
-  console.log("start", tagName, attrs)
+  console.log("start", tagName, attrs);
 }
 // 结束标签
 function end(tagName) {
-  console.log("end", tagName)
+  console.log("end", tagName);
 }
 // 文本标签
 function text(chars) {
-  console.log("text", chars)
+  console.log("text", chars);
 }
 ```
 
@@ -205,59 +210,66 @@ function text(chars) {
 // src/compiler/index.js#parserHTML#parseStartTag
 
 /**
-  * 匹配开始标签,返回匹配结果
-  */
+ * 匹配开始标签,返回匹配结果
+ */
 function parseStartTag() {
   const start = html.match(startTagOpen);
-  if(start){
+  if (start) {
     const match = {
       tagName: start[1],
-      attrs: []
-    }
-    advance(start[0].length)
+      attrs: [],
+    };
+    advance(start[0].length);
     let end;
     let attr;
-    while (!(end = html.match(startTagClose)) && (attr = html.match(attribute))) {
-      match.attrs.push({ name: attr[1], value: attr[3] || attr[4] || attr[5] })
-      advance(attr[0].length)
+    while (
+      !(end = html.match(startTagClose)) &&
+      (attr = html.match(attribute))
+    ) {
+      match.attrs.push({ name: attr[1], value: attr[3] || attr[4] || attr[5] });
+      advance(attr[0].length);
     }
     if (end) {
-      advance(end[0].length)
+      advance(end[0].length);
     }
-    return match
+    return match;
   }
   return false;
 }
 
 while (html) {
-  let index = html.indexOf('<');
+  let index = html.indexOf("<");
   if (index == 0) {
-    console.log("解析 html：" + html + ",结果：是标签")
+    console.log("解析 html：" + html + ",结果：是标签");
     // 如果是标签，继续解析开始标签和属性
     const startTagMatch = parseStartTag();
-    console.log("开始标签的匹配结果 startTagMatch = " + JSON.stringify(startTagMatch))
+    console.log(
+      "开始标签的匹配结果 startTagMatch = " + JSON.stringify(startTagMatch)
+    );
 
     if (startTagMatch) {
       // 匹配到开始标签，调用start方法，传递标签名和属性
-      start(startTagMatch.tagName, startTagMatch.attrs)
+      start(startTagMatch.tagName, startTagMatch.attrs);
       continue; // 如果是开始标签，不需要继续向下走了，继续 while 解析后面的部分
     }
 
     // 如果开始标签没有匹配到，有可能是结束标签 </div>
     let endTagMatch;
-    if (endTagMatch = html.match(endTag)) {// 匹配到了，说明是结束标签
+    if ((endTagMatch = html.match(endTag))) {
+      // 匹配到了，说明是结束标签
       // 匹配到开始标签，调用start方法，传递标签名和属性
-      end(endTagMatch[1])
-      advance(endTagMatch[0].length)
+      end(endTagMatch[1]);
+      advance(endTagMatch[0].length);
       continue; // 如果是结束标签，不需要继续向下走了，继续 while 解析后面的部分
     }
   }
 
-  if(index > 0){	// 文本
+  if (index > 0) {
+    // 文本
     // 将文本取出来并发射出去,再从 html 中拿掉
-    let chars = html.substring(0,index) // hello</div>
+    let chars = html.substring(0, index); // hello</div>
     text(chars);
-    advance(chars.length)
+    advance(chars.length);
   }
 }
 ```
@@ -266,10 +278,10 @@ while (html) {
 
 ## 测试一个较复杂的模板解析
 
-```js
+```html
 <body>
   <div id="app" a='1' b=2 > <p>{{message}} <span>Hello Vue</span></p></div>
-  <script src="/dist/vue.js"></script>
+  <script src="vue.js"></script>
   <script>
     let vm = new Vue({
       el: '#app',
@@ -283,7 +295,7 @@ while (html) {
 
 打印结果：
 
-```js
+```
 进入 state.js - initData，数据初始化操作
 ***** 进入 $mount，el = #app*****
 获取真实的元素，el = [object HTMLDivElement]
