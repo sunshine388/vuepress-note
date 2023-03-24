@@ -1,13 +1,6 @@
-import { hopeTheme, navbar, sidebar } from "vuepress-theme-hope";
+import { hopeTheme } from "vuepress-theme-hope";
 import Navbar from "./Navbar.js";
-
-const getSidebar = () => {
-  let sidebar = {};
-  Navbar.forEach((item) => {
-    sidebar[item.link] = "structure";
-  });
-  return sidebar;
-};
+import Sidebar from "./Sidebar";
 
 export default hopeTheme({
   hostname: "https://vuepress-theme-hope-docs-demo.netlify.app",
@@ -19,12 +12,13 @@ export default hopeTheme({
   repo: "sunshine388/vuepress-note",
   docsDir: "src",
 
-  navbar: navbar(Navbar),
-  sidebar: sidebar(getSidebar()),
+  navbar: Navbar,
+  sidebar: Sidebar,
 
   displayFooter: false,
   metaLocales: {
     editLink: "在github上编辑此页",
+    toc: "大纲",
   },
 
   encrypt: {
