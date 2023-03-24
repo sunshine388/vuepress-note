@@ -11,21 +11,20 @@ order: 8
 
 ### 三种模板写法及优先级
 
-```js
+```html
 <body>
   <!-- 第一种 -->
-  <div id=app>{{message}}</div>
+  <div id="app">{{message}}</div>
   <script src="/dist/vue.js"></script>
   <script>
     debugger;
     let vm = new Vue({
-      el: '#app',
-      data() {
-      },
+      el: "#app",
+      data() {},
       // 第二种
-      template:'',
+      template: "",
       // 第三种
-      render(){}
+      render() {},
     });
   </script>
 </body>
@@ -34,7 +33,9 @@ order: 8
 三种写法的优先级【由高到低】：
 
 > 使用 render
+>
 > 使用 template
+>
 > 使用元素中的内容
 
 ### 两种数据挂载方式
@@ -44,15 +45,25 @@ order: 8
 ```js
 let vm = new Vue({
   // el: '#app',		// 挂载方式一
-  data() {
-  },
-}).$mount('#app');	// 挂载方式 2
+  data() {},
+}).$mount("#app"); // 挂载方式 2
 ```
 
-当挂载点 vm.$options.el 存在，或直接调用了 Vue 的原型方法 $mount 时，
-就会通过 Vue 上的原型方法 $mount 对数据进行挂载操作
+当挂载点 vm.$options.el 存在，或直接调用了 Vue 的原型方法 $mount 时，就会通过 Vue 上的原型方法 $mount 对数据进行挂载操作
 
 ## Vue 的原型方法 $mount
+
+```html
+<body>
+  <div id="app">{{message}}</div>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data() {...},
+    });
+  </script>
+</body>
+```
 
 在 $mount 中，拿到 el 挂载点指向的真实 dom 元素，并使用新内容将它替换掉
 
@@ -68,9 +79,9 @@ export function initMixin(Vue) {
 
     if (vm.$options.el) {
       // 将数据挂载到页面上（此时数据已被观测）
-      vm.$mount(vm.$options.el)
+      vm.$mount(vm.$options.el);
     }
-  }
+  };
 
   // 支持 new Vue({el}) 和 new Vue().$mount 两种情况
   Vue.prototype.$mount = function (el) {
@@ -85,7 +96,7 @@ export function initMixin(Vue) {
         template = el.outerHTML;
       }
     }
-  }
+  };
 }
 ```
 
@@ -96,6 +107,7 @@ export function initMixin(Vue) {
 在 vue 中，编译阶段的最终结果是输出 render 函数：
 
 > parserHTML：将模板内容编译为 ast 语法树
+>
 > generate：再根据 ast 语法树生成为 render 函数；
 
 ```js
@@ -109,16 +121,15 @@ export function compileToFunction(template) {
 }
 
 function parserHTML(template) {
-  console.log("parserHTML-template : " + template)
+  console.log("parserHTML-template : " + template);
 }
 
 function generate(ast) {
-  console.log("parserHTML-ast : " + ast)
+  console.log("parserHTML-ast : " + ast);
 }
 ```
 
-在 Vue 中，compileToFunction 方法是 Vue 编译的入口，
-完成了以上两个操作，最终将模板编译成为 render 函数；
+在 Vue 中，compileToFunction 方法是 Vue 编译的入口，完成了以上两个操作，最终将模板编译成为 render 函数；
 
 ### parserHTML
 
@@ -126,23 +137,25 @@ parserHTML 方法：将 HTML 模板编译成为 ast 语法树
 
 compileToFunction(template) 方法，对 html 模板进行处理，需要传入 html 模板：
 
-```js
+```html
 <body>
-  <div id=app>{{message}}</div>
+  <div id="app">{{message}}</div>
   <script>
     let vm = new Vue({
-      el: '#app',
+      el: "#app",
       data() {
-        return { message:"Hello Vue" }
+        return { message: "Hello Vue" };
       },
-      template:'<div id="app">{{message}}</div>'
+      template: '<div id="app">{{message}}</div>',
     });
   </script>
 </body>
 ```
 
 在 Vue 初始化时:
+
 如果 options 选项中设置了 template，将优先使用 template 内容作为模板
+
 如果 options 选项没有设置 template，将采用元素内容作为 Html 模板
 
 代码实现
@@ -158,15 +171,15 @@ Vue.prototype.$mount = function (el) {
   if (!opts.render) {
     // 如果没有 template, 采用元素内容
     let template = opts.template;
-    console.log("template = " + template)
+    console.log("template = " + template);
     if (!template && el) {
       // 将模板编译为 render 函数
       template = el.outerHTML;
-    }else{
-      console.log("有template = " + template)
+    } else {
+      console.log("有template = " + template);
     }
     let render = compileToFunction(template);
     opts.render = render;
   }
-}
+};
 ```
