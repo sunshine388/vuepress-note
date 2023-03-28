@@ -31,14 +31,21 @@ src 和 href 都是用来引用外部的资源，区别如下：
 
 常见的语义化标签：
 
-```js
-<header></header>  头部
-<nav></nav>  导航栏
-<section></section>  区块（有语义化的div）
-<main></main>  主要区域
-<article></article>  主要内容
-<aside></aside>  侧边栏
-<footer></footer>  底部
+```html
+<header></header>
+头部
+<nav></nav>
+导航栏
+<section></section>
+区块（有语义化的div）
+<main></main>
+主要区域
+<article></article>
+主要内容
+<aside></aside>
+侧边栏
+<footer></footer>
+底部
 ```
 
 ## 前端需要注意哪些 SEO
@@ -116,7 +123,7 @@ src 和 href 都是用来引用外部的资源，区别如下：
 ## Doctype 作用? 严格模式与混杂模式如何区分？它们有何意义?
 
 - 页面被加载的时， link 会同时被加载，而 @imort 页面被加载的时， link 会同时被加载，而 @import 引用的 CSS 会等到页面被加载完再加载 import 只在 IE5 以上才能识别，而 link 是 XHTML 标签，无兼容问题 link 方式的样式的权重 高于 @import 的权重
-- <!DOCTYPE> 声明位于文档中的最前面，处于 \<html> 标签之前。告知浏览器的解析器，
+- \<!DOCTYPE> 声明位于文档中的最前面，处于 \<html> 标签之前。告知浏览器的解析器，
 - 用什么文档类型 规范来解析这个文档严格模式的排版和 JS 运作模式是 以该浏览器支持的最高标准运行
 - 在混杂模式中，页面以宽松的向后兼容的方式显示。模拟老式浏览器的行为以防止站点无法工作。 DOCTYPE 不存在或格式不正确会导致文档以混杂模式呈现
 
