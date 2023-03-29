@@ -17,25 +17,25 @@ Vue 初始化，会在挂载时调用 mountComponent 方法
 // src/init.js
 
 Vue.prototype.$mount = function (el) {
-    const vm = this;
-    const opts = vm.$options;
-    el = document.querySelector(el); // 获取真实的元素
-    vm.$el = el; // vm.$el 表示当前页面上的真实元素
+  const vm = this;
+  const opts = vm.$options;
+  el = document.querySelector(el); // 获取真实的元素
+  vm.$el = el; // vm.$el 表示当前页面上的真实元素
 
-    // 如果没有 render, 看 template
-    if (!opts.render) {
-      // 如果没有 template, 采用元素内容
-      let template = opts.template;
-      if (!template) {
-        // 拿到整个元素标签,将模板编译为 render 函数
-        template = el.outerHTML;
-      }
-      let render = compileToFunction(template);
-      opts.render = render;
+  // 如果没有 render, 看 template
+  if (!opts.render) {
+    // 如果没有 template, 采用元素内容
+    let template = opts.template;
+    if (!template) {
+      // 拿到整个元素标签,将模板编译为 render 函数
+      template = el.outerHTML;
     }
-
-    mountComponent(vm);
+    let render = compileToFunction(template);
+    opts.render = render;
   }
+
+  mountComponent(vm);
+};
 ```
 
 在 mountComponent 方法中，会创建一个 watcher
@@ -44,21 +44,25 @@ Vue.prototype.$mount = function (el) {
 // src/lifeCycle.js
 
 export function mountComponent(vm) {
-
-  let updateComponent = ()=>{
+  let updateComponent = () => {
     vm._update(vm._render());
-  }
+  };
   // 当视图渲染前，调用钩子: beforeCreate
-  callHook(vm, 'beforeCreate');
+  callHook(vm, "beforeCreate");
 
   // 渲染 watcher ：每个组件都有一个 watcher
-  new Watcher(vm, updateComponent, ()=>{
-    // 视图更新后，调用钩子: created
-    callHook(vm, 'created');
-  },true)
+  new Watcher(
+    vm,
+    updateComponent,
+    () => {
+      // 视图更新后，调用钩子: created
+      callHook(vm, "created");
+    },
+    true
+  );
 
-   // 当视图挂载完成，调用钩子: mounted
-   callHook(vm, 'mounted');
+  // 当视图挂载完成，调用钩子: mounted
+  callHook(vm, "mounted");
 }
 ```
 
@@ -69,35 +73,43 @@ export function mountComponent(vm) {
 
 function defineReactive(obj, key, value) {
   // childOb 是数据组进行观测后返回的结果，内部 new Observe 只处理数组或对象类型
-  let childOb = observe(value);// 递归实现深层观测
-  let dep = new Dep();  // 为每个属性添加一个 dep
+  let childOb = observe(value); // 递归实现深层观测
+  let dep = new Dep(); // 为每个属性添加一个 dep
   Object.defineProperty(obj, key, {
     // get方法构成闭包：取obj属性时需返回原值value，
     // value会查找上层作用域的value，所以defineReactive函数不能被释放销毁
     get() {
-      if(Dep.target){
+      if (Dep.target) {
         // 对象属性的依赖收集
         dep.depend();
         // 数组或对象本身的依赖收集
-        if(childOb){  // 如果 childOb 有值，说明数据是数组或对象类型
+        if (childOb) {
+          // 如果 childOb 有值，说明数据是数组或对象类型
           // observe 方法中，会通过 new Observe 为数组或对象本身添加 dep 属性
-          childOb.dep.depend();    // 让数组和对象本身的 dep 记住当前 watcher
-          if(Array.isArray(value)){// 如果当前数据是数组类型
+          childOb.dep.depend(); // 让数组和对象本身的 dep 记住当前 watcher
+          if (Array.isArray(value)) {
+            // 如果当前数据是数组类型
             // 可能数组中继续嵌套数组，需递归处理
-            dependArray(value)
+            dependArray(value);
           }
         }
       }
       return value;
     },
-    set(newValue) { // 确保新对象为响应式数据：如果新设置的值为对象，需要再次进行劫持
-      console.log("修改了被观测属性 key = " + key + ", newValue = " + JSON.stringify(newValue))
-      if (newValue === value) return
-      observe(newValue);  // observe方法：如果是对象，会 new Observer 深层观测
+    set(newValue) {
+      // 确保新对象为响应式数据：如果新设置的值为对象，需要再次进行劫持
+      console.log(
+        "修改了被观测属性 key = " +
+          key +
+          ", newValue = " +
+          JSON.stringify(newValue)
+      );
+      if (newValue === value) return;
+      observe(newValue); // observe方法：如果是对象，会 new Observer 深层观测
       value = newValue;
       dep.notify(); // 通知当前 dep 中收集的所有 watcher 依次执行视图更新
-    }
-  })
+    },
+  });
 }
 ```
 
@@ -105,21 +117,21 @@ function defineReactive(obj, key, value) {
 
 ```js
 class Dep {
-  constructor(){
+  constructor() {
     this.id = id++;
     this.subs = [];
   }
   // 让 watcher 记住 dep（查重），再让 dep 记住 watcher
-  depend(){
+  depend() {
     Dep.target.addDep(this);
   }
   // 让 dep 记住 watcher - 在 watcher 中被调用
-  addSub(watcher){
+  addSub(watcher) {
     this.subs.push(watcher);
   }
   // dep 中收集的全部 watcher 依次执行更新方法 update
-  notify(){
-    this.subs.forEach(watcher => watcher.update())
+  notify() {
+    this.subs.forEach((watcher) => watcher.update());
   }
 }
 ```
@@ -130,22 +142,22 @@ class Dep {
 // src/observe/watcher.js
 
 class Watcher {
-  constructor(vm, fn, cb, options){
+  constructor(vm, fn, cb, options) {
     this.vm = vm;
     this.fn = fn;
     this.cb = cb;
     this.options = options;
 
-    this.id = id++;   // watcher 唯一标记
-    this.depsId = new Set();  // 用于当前 watcher 保存 dep 实例的唯一id
+    this.id = id++; // watcher 唯一标记
+    this.depsId = new Set(); // 用于当前 watcher 保存 dep 实例的唯一id
     this.deps = []; // 用于当前 watcher 保存 dep 实例
     this.getter = fn; // fn 为页面渲染逻辑
     this.get();
   }
-  addDep(dep){
+  addDep(dep) {
     let did = dep.id;
     // dep 查重
-    if(!this.depsId.has(did)){
+    if (!this.depsId.has(did)) {
       // 让 watcher 记住 dep
       this.depsId.add(did);
       this.deps.push(dep);
@@ -153,17 +165,17 @@ class Watcher {
       dep.addSub(this);
     }
   }
-  get(){
-    Dep.target = this;  // 在触发视图渲染前，将 watcher 记录到 Dep.target 上
-    this.getter();      // 调用页面渲染逻辑
-    Dep.target = null;  // 渲染完成后，清除 Watcher 记录
+  get() {
+    Dep.target = this; // 在触发视图渲染前，将 watcher 记录到 Dep.target 上
+    this.getter(); // 调用页面渲染逻辑
+    Dep.target = null; // 渲染完成后，清除 Watcher 记录
   }
-  update(){
-    console.log("watcher-update", "查重并缓存需要更新的 watcher")
+  update() {
+    console.log("watcher-update", "查重并缓存需要更新的 watcher");
     queueWatcher(this);
   }
-  run(){
-    console.log("watcher-run", "真正执行视图更新")
+  run() {
+    console.log("watcher-run", "真正执行视图更新");
     this.get();
   }
 }
@@ -182,10 +194,11 @@ export function queueWatcher(watcher) {
   let id = watcher.id;
   if (has[id] == null) {
     has[id] = true;
-    queue.push(watcher);  // 缓存住watcher,后续统一处理
-    if (!pending) {       // 等效于防抖
+    queue.push(watcher); // 缓存住watcher,后续统一处理
+    if (!pending) {
+      // 等效于防抖
       nextTick(flushschedulerQueue);
-      pending = true;     // 首次进入被置为 true，使微任务执行完成后宏任务才执行
+      pending = true; // 首次进入被置为 true，使微任务执行完成后宏任务才执行
     }
   }
 }
@@ -195,10 +208,10 @@ export function queueWatcher(watcher) {
  */
 function flushschedulerQueue() {
   // 更新前,执行生命周期：beforeUpdate
-  queue.forEach(watcher => watcher.run()) // 依次触发视图更新
-  queue = [];       // reset
-  has = {};         // reset
-  pending = false;  // reset
+  queue.forEach((watcher) => watcher.run()); // 依次触发视图更新
+  queue = []; // reset
+  has = {}; // reset
+  pending = false; // reset
   // 更新完成,执行生命周期：updated
 }
 ```
@@ -215,21 +228,25 @@ this.getter 即 watcher 初始化时传入的视图更新方法 fn，
 // src/lifeCycle.js
 
 export function mountComponent(vm) {
-
-  let updateComponent = ()=>{
+  let updateComponent = () => {
     vm._update(vm._render());
-  }
+  };
   // 当视图渲染前，调用钩子: beforeCreate
-  callHook(vm, 'beforeCreate');
+  callHook(vm, "beforeCreate");
 
   // 渲染 watcher ：每个组件都有一个 watcher
-  new Watcher(vm, updateComponent, ()=>{
-    // 视图更新后，调用钩子: created
-    callHook(vm, 'created');
-  },true)
+  new Watcher(
+    vm,
+    updateComponent,
+    () => {
+      // 视图更新后，调用钩子: created
+      callHook(vm, "created");
+    },
+    true
+  );
 
-   // 当视图挂载完成，调用钩子: mounted
-   callHook(vm, 'mounted');
+  // 当视图挂载完成，调用钩子: mounted
+  callHook(vm, "mounted");
 }
 ```
 
@@ -240,12 +257,12 @@ export function mountComponent(vm) {
 ```js
 // src/lifeCycle.js
 
-export function lifeCycleMixin(Vue){
+export function lifeCycleMixin(Vue) {
   Vue.prototype._update = function (vnode) {
     const vm = this;
     // 传入当前真实元素vm.$el，虚拟节点vnode，返回新的真实元素
     vm.$el = patch(vm.$el, vnode);
-  }
+  };
 }
 ```
 
@@ -258,6 +275,7 @@ update 方法会使用新的虚拟节点重新生成真实 dom，并替换掉原
 所以，patch 方法即为重点优化对象：
 
 > 当前的 patch 方法，仅考虑了初始化的情况，还需要处理更新操作
+>
 > patch 方法需要对新老虚拟节点进行一次比对，尽可能复用原有节点，以提升渲染性能
 
 1. 首次渲染，根据虚拟节点生成真实节点，替换掉原来的节点
@@ -281,14 +299,14 @@ update 方法会使用新的虚拟节点重新生成真实 dom，并替换掉原
 // 1,生成第一个虚拟节点
 // new Vue会对数据进行劫持
 let vm1 = new Vue({
-    data(){
-        return {name:'Brave'}
-    }
-})
+  data() {
+    return { name: "Brave" };
+  },
+});
 // 将模板 render1 生成为 render 函数
-let render1 = compileToFunction('<div>{{name}}</div>');// 调用 compileToFunction，将模板生成 render 函数，会解析模板，最终包成一个 function
+let render1 = compileToFunction("<div>{{name}}</div>"); // 调用 compileToFunction，将模板生成 render 函数，会解析模板，最终包成一个 function
 // 调用 render 函数，产生虚拟节点
-let oldVnode = render1.call(vm1)    // oldVnode:第一次的虚拟节点
+let oldVnode = render1.call(vm1); // oldVnode:第一次的虚拟节点
 // 将虚拟节点生成真实节点
 let el1 = createElm(oldVnode);
 // 将真实节点渲染到页面上
@@ -302,18 +320,18 @@ document.body.appendChild(el1);
 
 // 2，生成第二个虚拟节点
 let vm2 = new Vue({
-    data(){
-        return {name:'BraveWang'}
-    }
-})
-let render2 = compileToFunction('<p>{{name}}</p>');
+  data() {
+    return { name: "BraveWang" };
+  },
+});
+let render2 = compileToFunction("<p>{{name}}</p>");
 let newVnode = render2.call(vm2);
 
 // 延迟看效果：初始化完成显示 el1，1 秒后移除 el1 显示 el2
-setTimeout(()=>{
-    let el2 = createElm(newVnode);
-    document.body.removeChild(el1);
-    document.body.appendChild(el2);
+setTimeout(() => {
+  let el2 = createElm(newVnode);
+  document.body.removeChild(el1);
+  document.body.appendChild(el2);
 }, 1000);
 
 export default Vue;
@@ -328,9 +346,9 @@ patch 方法：将新老虚拟节点进行一次比对，尽可能复用原有�
 ```js
 // 如果标签名一样就复用
 // 3,调用 patch 方法进行比对
-setTimeout(()=>{
-    // 比对新老虚拟节点的差异，尽可能复用原有节点，以提升渲染性能
-    patch(oldVnode,newVnode);
+setTimeout(() => {
+  // 比对新老虚拟节点的差异，尽可能复用原有节点，以提升渲染性能
+  patch(oldVnode, newVnode);
 }, 1000);
 ```
 
@@ -357,6 +375,7 @@ setTimeout(()=>{
 ```
 
 查看生成的两个真实节点：
+
 ![](/images/手写vue2源码/（二十二）diff算法-问题分析与patch优化/打印输出1.png)
 
 接下来开始改造 patch 方法，以实现节点对比和复用；
@@ -389,12 +408,15 @@ export function patch(el, vnode) {
 ### 改造 patch 方法
 
 当前 patch 方法的两个入参分别是：元素和虚拟节点
+
 将虚拟节点创建为真实节点，直接进行元素替换，完成数据更新
 
 现在需要将新老虚拟节点进行比对，尽可能复用原有节点，提高渲染性能
+
 所以 patch 方法需改造为入参是新老虚拟节点：oldVnode、vnode
 
 当前的 patch 方法仅考虑到初始化的情况；
+
 现在还需要支持数据更新的情况；
 
 ```js
@@ -411,7 +433,9 @@ export function patch(oldVnode, vnode) {
 问题：初渲染 OR 更新渲染？
 
 > 通过判断 oldVnode.nodeType 节点类型是否为真实节点；
+>
 > 是真实节点，需要进行新老虚拟节点比对
+>
 > 非真实节点，即为真实 dom 时，进行初渲染逻辑
 
 改造完成后的 patch 方法：
@@ -419,14 +443,16 @@ export function patch(oldVnode, vnode) {
 ```js
 export function patch(oldVnode, vnode) {
   const isRealElement = oldVnode.nodeType;
-  if(isRealElement){// 真实节点，走老逻辑
+  if (isRealElement) {
+    // 真实节点，走老逻辑
     const elm = createElm(vnode);
-    const parentNode = oldVnode.parentNode;;
+    const parentNode = oldVnode.parentNode;
     parentNode.insertBefore(elm, oldVnode.nextSibling);
     parentNode.removeChild(oldVnode);
     return elm;
-  }else{// 虚拟节点：做 diff 算法，新老节点比对
-    console.log(oldVnode, vnode)
+  } else {
+    // 虚拟节点：做 diff 算法，新老节点比对
+    console.log(oldVnode, vnode);
   }
 }
 ```

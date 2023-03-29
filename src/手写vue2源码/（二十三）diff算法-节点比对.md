@@ -20,6 +20,7 @@ diff 算法-节点比对
 diff 算法也叫做同层比较算法；
 
 首先，dom 是一个树型结构：
+
 ![](/images/手写vue2源码/（二十三）diff算法-节点比对/img1.png)
 
 在日常开发中，很少会将 B 和 A 或是 D 和 A 的位置进行调换，即：很少将父亲和儿子节点进行交换
@@ -31,9 +32,11 @@ diff 算法也叫做同层比较算法；
 diff 算法将新老虚拟节点，"两棵树"进行比对
 
 从树的根节点，即 LV1 层开始比较：
+
 ![](/images/手写vue2源码/（二十三）diff算法-节点比对/img2.png)
 
 A 比较完成后，查看 A 节点是否有儿子节点，即 B 和 C，优先比较 B：
+
 ![](/images/手写vue2源码/（二十三）diff算法-节点比对/img3.png)
 
 B 比较完成后，查看 B 节点是否有儿子节点，即 D 和 E，优先比较 D
@@ -49,7 +52,9 @@ D 比较完成后，没有儿子；继续比较 E，当前层处理完成，返�
 ### diff 算法的节点复用
 
 如何确定两个节点为复用，一般来说，相同标签的元素即可进行复用；
+
 但也有标签相同，实际场景并不希望复用的情况，这时可使用 key 属性进行标记；
+
 如果 key 不相同，即便标签名相同的两个元素，也不会进行复用；
 
 所以，在编写代码时，相同节点的复用标准如下：
@@ -69,8 +74,8 @@ isSameVnode 方法：用于判断是否为相同节点：
  * @param {*} oldVnode 老虚拟节点
  * @returns
  */
-export function isSameVnode(newVnode, oldVnode){
-  return (newVnode.tag === oldVnode.tag)&&(newVnode.key === oldVnode.key);
+export function isSameVnode(newVnode, oldVnode) {
+  return newVnode.tag === oldVnode.tag && newVnode.key === oldVnode.key;
 }
 ```
 
@@ -85,27 +90,27 @@ export function isSameVnode(newVnode, oldVnode){
 ```js
 // 模拟初渲染
 let vm1 = new Vue({
-    data() {
-        return { name: 'Brave' }
-    }
-})
-let render1 = compileToFunction('<div>{{name}}</div>');
-let oldVnode = render1.call(vm1)
+  data() {
+    return { name: "Brave" };
+  },
+});
+let render1 = compileToFunction("<div>{{name}}</div>");
+let oldVnode = render1.call(vm1);
 let el1 = createElm(oldVnode);
 document.body.appendChild(el1);
 
 // 模拟新的虚拟节点 newVnode
 let vm2 = new Vue({
-    data() {
-        return { name: 'BraveWang' }
-    }
-})
-let render2 = compileToFunction('<p>{{name}}</p>');
+  data() {
+    return { name: "BraveWang" };
+  },
+});
+let render2 = compileToFunction("<p>{{name}}</p>");
 let newVnode = render2.call(vm2);
 
 // diff：新老虚拟节点对比
 setTimeout(() => {
-    patch(oldVnode, newVnode);
+  patch(oldVnode, newVnode);
 }, 1000);
 ```
 
@@ -114,6 +119,7 @@ setTimeout(() => {
 所以不是相同节点，不考虑复用（放弃跨层复用），直接使用新的替换掉旧的真实节点
 
 在 patch 方法中，打印新老虚拟节点：
+
 ![](/images/手写vue2源码/（二十三）diff算法-节点比对/img4.png)
 
 ![](/images/手写vue2源码/（二十三）diff算法-节点比对/img5.png)
@@ -121,6 +127,7 @@ setTimeout(() => {
 如何替换节点
 
 > 由于父节点的标签名不同，导致节点不复用，
+>
 > 需根据新的虚拟节点生成真实节点，并替换掉老节点
 
 1. 使用新的虚拟节点创建真实节点：
@@ -132,29 +139,31 @@ setTimeout(() => {
 结论：
 
 > 新的真实节点：createElm(vnode);
+>
 > 老的真实节点：oldVnode.el;
 
 ```js
 export function patch(oldVnode, vnode) {
   const isRealElement = oldVnode.nodeType;
-  if(isRealElement){// 真实节点
+  if (isRealElement) {
+    // 真实节点
     const elm = createElm(vnode);
     const parentNode = oldVnode.parentNode;
     parentNode.insertBefore(elm, oldVnode.nextSibling);
     parentNode.removeChild(oldVnode);
     return elm;
-  }else{ // diff：新老虚拟节点比对
-    console.log(oldVnode, vnode)
-    if(!isSameVnode(oldVnode, vnode)){// 不是相同节点，不考虑复用直接替换
+  } else {
+    // diff：新老虚拟节点比对
+    console.log(oldVnode, vnode);
+    if (!isSameVnode(oldVnode, vnode)) {
+      // 不是相同节点，不考虑复用直接替换
       return oldVnode.el.parentNode.replaceChild(createElm(vnode), oldVnode.el);
     }
   }
 }
 ```
 
-当包含子组件时，每个组件都有一个 watcher，
-将会通过 diff 进行局部更新，并不会做整个树的更新
-所以，只要组件拆分合理，一般不会有性能问题
+当包含子组件时，每个组件都有一个 watcher，将会通过 diff 进行局部更新，并不会做整个树的更新，所以，只要组件拆分合理，一般不会有性能问题
 
 ### 是相同节点的情况
 
@@ -164,18 +173,26 @@ export function patch(oldVnode, vnode) {
 
 #### 文本的处理
 
-文本节点没有标签名
-文本节点没有有儿子
+文本节点没有标签名，文本节点没有有儿子
 
 ```js
-// 文本的处理：文本可以直接更新，因为文本没有儿子
-// 组件中 Vue.component（‘xxx’）；xxx 就是组件的 tag
-let el = vnode.el = oldVnode.el;  // 节点复用：将老节点 el 赋值给新节点 el
-if(!oldVnode.tag){// 文本：没有标签名
-  if(oldVnode.text !== vnode.text){// 内容变更：更新文本内容
-    return el.textContent = vnode.text;// 新内容替换老内容
-  } else{
-    return;
+// src/vdom/patch.js #patch
+// 虚拟节点：做 diff 算法，新老节点比对
+console.log(oldVnode, vnode);
+if (!isSameVnode(oldVnode, vnode)) {
+  // 不是相同节点，不考虑复用直接替换
+  return oldVnode.el.parentNode.replaceChild(createElm(vnode), oldVnode.el);
+} else {
+  // 文本的处理：文本可以直接更新，因为文本没有儿子
+  // 组件中 Vue.component（‘xxx’）；xxx 就是组件的 tag
+  let el = (vnode.el = vnode.el); // 节点复用：将老节点 el 赋值给新节点 el
+  if (!oldVnode.tag) {
+    // 文本，没有标签名
+    if (oldVnode.text !== vnode.text) {
+      el.textContent = vnode.text; // 新内容替换老内容
+    } else {
+      return;
+    }
   }
 }
 ```
@@ -183,29 +200,31 @@ if(!oldVnode.tag){// 文本：没有标签名
 #### 元素的处理
 
 相同节点且新老节点不都是文本时，会对元素进行处理
+
 需要对 updateProperties 方法进行重构调整：
+
 重构前：直接传入真实元素 vnode.el 和 data 属性，进行替换，仅具有渲染功能
 
 ```js
 // src/vdom/patch.js
 
 export function createElm(vnode) {
-  let{tag, data, children, text, vm} = vnode;
-  if(typeof tag === 'string'){
-    vnode.el = document.createElement(tag)
-    updateProperties(vnode.el, data)
-    children.forEach(child => {
-      vnode.el.appendChild(createElm(child))
+  let { tag, data, children, text, vm } = vnode;
+  if (typeof tag === "string") {
+    vnode.el = document.createElement(tag);
+    updateProperties(vnode.el, data);
+    children.forEach((child) => {
+      vnode.el.appendChild(createElm(child));
     });
   } else {
-    vnode.el = document.createTextNode(text)
+    vnode.el = document.createTextNode(text);
   }
   return vnode.el;
 }
 
-function updateProperties(el, props = {} ) {
-  for(let key in props){
-    el.setAttribute(key, props[key])
+function updateProperties(el, props = {}) {
+  for (let key in props) {
+    el.setAttribute(key, props[key]);
   }
 }
 ```
@@ -222,32 +241,33 @@ updateProperties 方法的重构方式：
 // src/vdom/patch.js
 
 export function createElm(vnode) {
-  let{tag, data, children, text, vm} = vnode;
-  if(typeof tag === 'string'){
-    vnode.el = document.createElement(tag)
-    updateProperties(vnode, data) // 修改。。。
-    children.forEach(child => {
-      vnode.el.appendChild(createElm(child))
+  let { tag, data, children, text, vm } = vnode;
+  if (typeof tag === "string") {
+    vnode.el = document.createElement(tag);
+    updateProperties(vnode, data); // 修改。。。
+    children.forEach((child) => {
+      vnode.el.appendChild(createElm(child));
     });
   } else {
-    vnode.el = document.createTextNode(text)
+    vnode.el = document.createTextNode(text);
   }
   return vnode.el;
 }
 
 // 1,初次渲染，用oldProps给vnode的 el 赋值即可
 // 2,更新逻辑，拿到老的props和vnode中的 data 进行比对
-function updateProperties(vnode, oldProps = {} ) {
+function updateProperties(vnode, oldProps = {}) {
   let el = vnode.el; // dom上的真实节点（上边复用老节点时已经赋值了）
-  let newProps = vnode.data || {};  // 拿到新的数据
+  let newProps = vnode.data || {}; // 拿到新的数据
   // 新旧比对：两个对象比对差异
-  for(let key in newProps){ // 直接用新的盖掉老的，但还要注意：老的里面有，可能新的里面没有了
-    el.setAttribute(key, newProps[key])
+  for (let key in newProps) {
+    // 直接用新的盖掉老的，但还要注意：老的里面有，可能新的里面没有了
+    el.setAttribute(key, newProps[key]);
   }
   // 处理老的里面有，可能新的里面没有的情况，需要再删掉
-  for(let key in oldProps){
-    if(!newProps[key]){
-      el.removeAttribute(key)
+  for (let key in oldProps) {
+    if (!newProps[key]) {
+      el.removeAttribute(key);
     }
   }
 }
@@ -262,28 +282,29 @@ updateProperties(vnode, oldVnode.data);
 
 ```js
 let vm1 = new Vue({
-    data() {
-        return { name: 'Brave' }
-    }
-})
+  data() {
+    return { name: "Brave" };
+  },
+});
 let render1 = compileToFunction('<div id="a">{{name}}</div>');
-let oldVnode = render1.call(vm1)
+let oldVnode = render1.call(vm1);
 let el1 = createElm(oldVnode);
 document.body.appendChild(el1);
 
 let vm2 = new Vue({
-    data() {
-        return { name: 'BraveWang' }
-    }
-})
+  data() {
+    return { name: "BraveWang" };
+  },
+});
 let render2 = compileToFunction('<div class="b">{{name}}</div>');
 let newVnode = render2.call(vm2);
 setTimeout(() => {
-    patch(oldVnode, newVnode);
+  patch(oldVnode, newVnode);
 }, 1000);
 ```
 
 测试结果：
+
 ![](/images/手写vue2源码/（二十三）diff算法-节点比对/img6.png)
 
 #### style 的处理
@@ -292,24 +313,24 @@ setTimeout(() => {
 
 ```js
 let vm1 = new Vue({
-    data() {
-        return { name: 'Brave' }
-    }
-})
+  data() {
+    return { name: "Brave" };
+  },
+});
 let render1 = compileToFunction('<div style="color:blue">{{name}}</div>');
-let oldVnode = render1.call(vm1)
+let oldVnode = render1.call(vm1);
 let el1 = createElm(oldVnode);
 document.body.appendChild(el1);
 
 let vm2 = new Vue({
-    data() {
-        return { name: 'BraveWang' }
-    }
-})
+  data() {
+    return { name: "BraveWang" };
+  },
+});
 let render2 = compileToFunction('<div style="color:red">{{name}}</div>');
 let newVnode = render2.call(vm2);
 setTimeout(() => {
-    patch(oldVnode, newVnode);
+  patch(oldVnode, newVnode);
 }, 1000);
 ```
 
@@ -317,43 +338,46 @@ setTimeout(() => {
 style 中是字符串类型，不能直接做替换，需要对样式属性进行收集，再进行比较和更新
 
 ```js
-function updateProperties(vnode, oldProps = {} ) {
+function updateProperties(vnode, oldProps = {}) {
   let el = vnode.el;
   let newProps = vnode.data || {};
 
-  let newStyly = newProps.style || {};  // 新样式对象
-  let oldStyly = oldProps.style || {};  // 老样式对象
+  let newStyly = newProps.style || {}; // 新样式对象
+  let oldStyly = oldProps.style || {}; // 老样式对象
 
   // 老样式对象中有，新样式对象中没有，删掉多余样式
-  for(let key in oldStyly){
-    if(!newStyly[key]){
-      el.style[key] = ''
+  for (let key in oldStyly) {
+    if (!newStyly[key]) {
+      el.style[key] = "";
     }
   }
 
   // 新样式对象中有，覆盖到老样式对象中
-  for(let key in newProps){
-    if(key == 'style'){ // 处理style样式
-      for(let key in newStyly){
-          el.style[key] = newStyly[key]
+  for (let key in newProps) {
+    if (key == "style") {
+      // 处理style样式
+      for (let key in newStyly) {
+        el.style[key] = newStyly[key];
       }
-    }else{
-      el.setAttribute(key, newProps[key])
+    } else {
+      el.setAttribute(key, newProps[key]);
     }
   }
 
-  for(let key in oldProps){
-    if(!newProps[key]){
-      el.removeAttribute(key)
+  for (let key in oldProps) {
+    if (!newProps[key]) {
+      el.removeAttribute(key);
     }
   }
 }
 ```
 
 更新前：
+
 ![](/images/手写vue2源码/（二十三）diff算法-节点比对/img7.png)
 
 更新后：
+
 ![](/images/手写vue2源码/（二十三）diff算法-节点比对/img8.png)
 
 至此，外层的 div 已经实现了 diff 更新，但内层 name 属性还并没有更新
