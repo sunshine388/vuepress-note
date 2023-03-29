@@ -289,6 +289,11 @@ renderMixin 只返回虚拟节点，但不关心虚拟节点如何产生
 \_v 方法：创建并返回文本的虚拟节点
 
 ```js
+Vue.prototype._c = function (...args) {
+  // createElement 创建元素型的节点
+  const vm = this;
+  return createElement(vm, ...args); // vm作用：确定虚拟节点所属实例
+};
 Vue.prototype._v = function (text) {
   // 创建文本的虚拟节点
   const vm = this;
