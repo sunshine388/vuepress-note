@@ -185,7 +185,7 @@ if (!isSameVnode(oldVnode, vnode)) {
 } else {
   // 文本的处理：文本可以直接更新，因为文本没有儿子
   // 组件中 Vue.component（‘xxx’）；xxx 就是组件的 tag
-  let el = (vnode.el = vnode.el); // 节点复用：将老节点 el 赋值给新节点 el
+  let el = (vnode.el = oldVnode.el); // 节点复用：将老节点 el 赋值给新节点 el
   if (!oldVnode.tag) {
     // 文本，没有标签名
     if (oldVnode.text !== vnode.text) {
@@ -335,6 +335,7 @@ setTimeout(() => {
 ```
 
 新老元素都有 style，不能用当前逻辑 el.setAttribute(key, newProps[key])来处理
+
 style 中是字符串类型，不能直接做替换，需要对样式属性进行收集，再进行比较和更新
 
 ```js
