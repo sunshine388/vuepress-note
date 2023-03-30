@@ -49,7 +49,7 @@ MVVM 模式是仅能够通过视图更改数据，通过数据来更改视图的
     <!-- 模板 -->
     <div id="app">{{message}}</div>
     <!-- 引入 vue -->
-    <script src="./vue.js"></script>
+    <script src="/dist/vue.js"></script>
     <script>
       <!-- 初始化 Vue，传入 options 对象 -->
       let vm = new Vue({
@@ -129,7 +129,7 @@ export function initMixin(Vue) {
   <title>Document</title>
 </head>
 <body>
-  <script src="vue.js"></script>
+  <script src="/dist/vue.js"></script>
   <script>
     let vm = new Vue({
       el: '#app',

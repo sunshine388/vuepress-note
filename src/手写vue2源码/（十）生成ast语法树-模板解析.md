@@ -281,7 +281,7 @@ while (html) {
 ```html
 <body>
   <div id="app" a='1' b=2 > <p>{{message}} <span>Hello Vue</span></p></div>
-  <script src="vue.js"></script>
+  <script src="/dist/vue.js"></script>
   <script>
     let vm = new Vue({
       el: '#app',

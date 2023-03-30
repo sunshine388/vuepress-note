@@ -209,7 +209,11 @@ class Dep {
   }
   // 保存数据的渲染 watcher
   depend() {
-    this.subs.push(Dep.target);
+    // this.subs.push(Dep.target);
+    if (Dep.target) {
+      // 相当于 watcher.addDep：使当前 watcher 记住 dep
+      Dep.target.addDep(this);
+    }
   }
 }
 

@@ -207,7 +207,7 @@ export function patch(oldVnode, vnode) {
   <div id="app">
     <span>{{name}}</span>
   </div>
-  <script src="./vue.js"></script>
+  <script src="/dist/vue.js"></script>
   <script>
     let vm = new Vue({
       el: "#app",

@@ -103,7 +103,7 @@ export default Vue;
     <li>{{name}}</li>
     <li>{{age}}</li>
   </div>
-  <script src="./vue.js"></script>
+  <script src="/dist/vue.js"></script>
   <script>
     let vm = new Vue({
       el: "#app",

@@ -142,7 +142,7 @@ demo 示例：
 ```html
 <body>
   <div id="app">aaa {{name}} bbb {{age}} ccc</div>
-  <script src="./vue.js"></script>
+  <script src="/dist/vue.js"></script>
   <script>
     let vm = new Vue({
       el: "#app",

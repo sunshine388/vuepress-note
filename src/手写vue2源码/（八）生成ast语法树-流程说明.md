@@ -15,7 +15,7 @@ order: 8
 <body>
   <!-- 第一种 -->
   <div id="app">{{message}}</div>
-  <script src="vue.js"></script>
+  <script src="/dist/vue.js"></script>
   <script>
     debugger;
     let vm = new Vue({

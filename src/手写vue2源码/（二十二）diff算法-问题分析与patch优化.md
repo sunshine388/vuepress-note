@@ -123,7 +123,11 @@ class Dep {
   }
   // 让 watcher 记住 dep（查重），再让 dep 记住 watcher
   depend() {
-    Dep.target.addDep(this);
+    // this.subs.push(Dep.target);
+    if (Dep.target) {
+      // 相当于 watcher.addDep：使当前 watcher 记住 dep
+      Dep.target.addDep(this);
+    }
   }
   // 让 dep 记住 watcher - 在 watcher 中被调用
   addSub(watcher) {
