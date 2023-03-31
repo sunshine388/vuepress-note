@@ -202,7 +202,16 @@ export function mergeOptions(parentVal, childVal) {
 // src/utils.js
 
 let strats = {}; // 存放所有策略
-let lifeCycle = ["beforeCreate", "created", "beforeMount", "mounted"];
+let lifeCycle = [
+  "beforeCreate",
+  "created",
+  "beforeMount",
+  "mounted",
+  "beforeUpdate",
+  "updated",
+  "beforeDestroy",
+  "destroyed",
+];
 lifeCycle.forEach((hook) => {
   // 创建生命周期的合并策略
   strats[hook] = function (parentVal, childVal) {
@@ -311,14 +320,16 @@ export function callHook(vm, hook) {
 
 ### 添加生命周期钩子
 
-当视图渲染前，调用钩子: beforeCreate
-视图更新后，调用钩子: created
+当视图渲染前，调用钩子: beforeMount
+视图更新后，调用钩子: beforeUpdate
 当视图挂载完成，调用钩子: mounted
 
 ```js
 // src/lifecycle.js
 
 export function mountComponent(vm) {
+  // 当视图渲染前，调用钩子: beforeMount
+  callHook(vm, "beforeMount");
   // vm._render()：调用 render 方法
   // vm._update：将虚拟节点更新到页面上
   // 初始化流程
@@ -328,17 +339,14 @@ export function mountComponent(vm) {
     vm._update(vm._render());
   };
 
-  // 当视图渲染前，调用钩子: beforeCreate
-  callHook(vm, "beforeCreate");
-
   // 渲染 watcher ：每个组件都有一个 watcher
   new Watcher(
     vm,
     updateComponent,
     () => {
       console.log("Watcher-update");
-      // 视图更新后，调用钩子: created
-      callHook(vm, "created");
+      // 视图更新后，调用钩子: beforeUpdate
+      callHook(vm, "beforeUpdate");
     },
     true
   );
@@ -346,6 +354,26 @@ export function mountComponent(vm) {
   // 当视图挂载完成，调用钩子: mounted
   callHook(vm, "mounted");
 }
+```
+
+```js
+// src/init.js
+ Vue.prototype._init = function (options) {
+    const vm = this;
+    // 此时需使用 options 与 mixin 合并后的全局 options 再进行一次合并
+    vm.$options = mergeOptions(vm.constructor.options, options);
+    callHook(vm, "beforeCreate");
+    // new Vue 时，传入 options 选项,包含 el 和 data
+    initState(vm); // 状态的初始化
+
+    callHook(vm, "created");
+
+    if (vm.$options.el) {
+      console.log("有el,需要挂载");
+      // 将数据挂载到页面上（此时数据已被观测）
+      vm.$mount(vm.$options.el);
+    }
+  };
 ```
 
 watcher 做视图更新前，调用钩子: beforeUpdate

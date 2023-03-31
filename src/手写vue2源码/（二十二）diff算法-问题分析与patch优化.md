@@ -44,19 +44,19 @@ Vue.prototype.$mount = function (el) {
 // src/lifeCycle.js
 
 export function mountComponent(vm) {
+  // 当视图渲染前，调用钩子: beforeMount
+  callHook(vm, "beforeMount");
   let updateComponent = () => {
     vm._update(vm._render());
   };
-  // 当视图渲染前，调用钩子: beforeCreate
-  callHook(vm, "beforeCreate");
 
   // 渲染 watcher ：每个组件都有一个 watcher
   new Watcher(
     vm,
     updateComponent,
     () => {
-      // 视图更新后，调用钩子: created
-      callHook(vm, "created");
+      // 视图更新后，调用钩子: beforeUpdate
+      callHook(vm, 'beforeUpdate');
     },
     true
   );
@@ -232,19 +232,19 @@ this.getter 即 watcher 初始化时传入的视图更新方法 fn，
 // src/lifeCycle.js
 
 export function mountComponent(vm) {
+  // 当视图渲染前，调用钩子: beforeMount
+  callHook(vm, "beforeMount");
   let updateComponent = () => {
     vm._update(vm._render());
   };
-  // 当视图渲染前，调用钩子: beforeCreate
-  callHook(vm, "beforeCreate");
 
   // 渲染 watcher ：每个组件都有一个 watcher
   new Watcher(
     vm,
     updateComponent,
     () => {
-      // 视图更新后，调用钩子: created
-      callHook(vm, "created");
+      // 视图更新后，调用钩子: beforeUpdate
+      callHook(vm, "beforeUpdate");
     },
     true
   );

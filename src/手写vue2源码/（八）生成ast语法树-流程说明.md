@@ -125,7 +125,7 @@ function parserHTML(template) {
 }
 
 function generate(ast) {
-  console.log("parserHTML-ast : " + ast);
+  console.log("parserHTML-ast : ", ast);
 }
 ```
 

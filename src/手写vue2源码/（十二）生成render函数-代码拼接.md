@@ -89,7 +89,7 @@ function genProps(attrs) {
       // ^;: 不是分号(分割属性和值)、冒号(结尾)
       let styles = {};
       attr.value.replace(/([^;:]+):([^;:]+)/g, function () {
-        styles[arguments[1]] = arguments[2];
+        styles[arguments[1].trim()] = arguments[2].trim();
       });
       attr.value = styles;
     }
