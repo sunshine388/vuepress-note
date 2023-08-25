@@ -16,4 +16,9 @@ features:
     icon: folder
     details: 前端面试题
     link: /前端面试题/
+
+  - title: 软件设计师
+    icon: folder
+    details: 软件设计师
+    link: /软件设计师/
 ---
